@@ -46,7 +46,8 @@
         })
     }));
 
-    var layerWFS = new ol.layer.Vector({
+    // foreground layer 1: WFS Polygons Multibeam
+    var wfsPolygons = new ol.layer.Vector({
         source: new ol.source.Vector({
             loader: function(extent, resolution, projection) {
 
@@ -69,7 +70,7 @@
                             featureProjection: projection1
                         }
                     );
-                    layerWFS.getSource().addFeatures(features);
+                    wfsPolygons.getSource().addFeatures(features);
                 });
             },
             projection: projection
@@ -83,7 +84,117 @@
         })
     });
 
-layers.push(layerWFS);
+layers.push(wfsPolygons);
+
+// foreground layer 2: WFS Lines Seismic
+var wfsLines = new ol.layer.Vector({
+    source: new ol.source.Vector({
+        loader: function(extent, resolution, projection) {
+
+            var featureRequest = new ol.format.WFS().writeGetFeature({
+                srsName: projection2,
+                featureNS: 'http://www.opengis.net/gml',
+                featureTypes: ['niwa_seismic'],
+                outputFormat: 'text/xml; subtype=gml/3.1.1'
+            });
+            // then post the request and add the received features to a layer
+            fetch('/OL3Proxy/dorequest?u=http://wms.niwa.co.nz/cgi-bin/seismic_bw', {
+                method: 'POST',
+                body: new XMLSerializer().serializeToString(featureRequest)
+            }).then(function(response) {
+                return response.text();
+            }).then(function(wfs) {
+                var features = new ol.format.WFS().readFeatures(
+                    wfs, {
+                        dataProjection: projection2,
+                        featureProjection: projection1
+                    }
+                );
+                wfsLines.getSource().addFeatures(features);
+            });
+        },
+        projection: projection
+    }),
+
+    style: new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: 'rgba(150, 100, 100, 1.0)',
+            width: 1
+        })
+    })
+});
+
+layers.push(wfsLines);
+
+
+
+
+// foreground layer 3: WFS Point Seismic
+var styleCache = {};
+var wfsPoints = new ol.layer.Vector({
+    source: new ol.source.Cluster({
+        distance: 40,
+        source: new ol.source.Vector({
+            loader: function(extent, resolution, projection) {
+
+                var featureRequest = new ol.format.WFS().writeGetFeature({
+                    srsName: projection2,
+                    featureNS: 'http://www.opengis.net/gml',
+                    featureTypes: ['DTIS'],
+                    outputFormat: 'text/xml; subtype=gml/3.1.1'
+                });
+                // then post the request and add the received features to a layer
+                fetch('/OL3Proxy/dorequest?u=http://wms.niwa.co.nz/cgi-bin/stations', {
+                    method: 'POST',
+                    body: new XMLSerializer().serializeToString(featureRequest)
+                }).then(function(response) {
+                    return response.text();
+                }).then(function(wfs) {
+                    var features = new ol.format.WFS().readFeatures(
+                        wfs, {
+                            dataProjection: projection2,
+                            featureProjection: projection1
+                        }
+                    );
+                    wfsPoints.getSource().getSource().addFeatures(features);
+                });
+            },
+            projection: projection
+        })
+    }),
+
+    style: function(feature) {
+        var size = feature.get('features').length;
+        var style = styleCache[size];
+        if (!style) {
+            style = new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 10,
+                    stroke: new ol.style.Stroke({
+                        color: '#fff'
+                    }),
+                    fill: new ol.style.Fill({
+                        color: '#3399CC'
+                    })
+                }),
+                text: new ol.style.Text({
+                    text: size.toString(),
+                    fill: new ol.style.Fill({
+                        color: '#fff'
+                    })
+                })
+            });
+            styleCache[size] = style;
+         }
+         return style;
+    }
+});
+
+layers.push(wfsPoints);
+
+
+
+
 
     var map = new ol.Map({
         target: target.get(0),
