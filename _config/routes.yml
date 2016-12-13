@@ -1,0 +1,7 @@
+---
+Name: openlayers3routes
+After: 'rootroutes'
+---
+Director:
+  rules:
+    'OL3Proxy': 'OL3Proxy_Controller'
