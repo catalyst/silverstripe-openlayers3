@@ -7,6 +7,7 @@ class OL3Map extends DataObject
 
     private static $db = [
         'Title' => 'Varchar',
+        'Projection' => 'Varchar',
         'Lat' => 'Decimal',
         'Lon' => 'Decimal',
         'Zoom' => 'Int',

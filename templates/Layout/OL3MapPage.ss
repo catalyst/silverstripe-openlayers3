@@ -1,1 +1,1 @@
-<div id="map" class="map" data-map-id="$Map.ID" data-view='$View' data-layers='$Layers'></div>
+<div id="map" class="map" data-map-id="$Map.ID" data-view='$View' data-layers='$Layers' data-layers='$Styles'></div>
