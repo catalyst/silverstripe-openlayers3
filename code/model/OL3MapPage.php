@@ -34,12 +34,27 @@ class OL3MapPage_Controller extends Page_Controller
         }
     }
 
+    public function Styles()
+    {
+        $styles = [];
+        if (($map = $this->Map())) {
+            foreach ($map->Layers() as $layer) {
+                if ($layer->hasMethod('getStyles')) {
+                    $layer->getStyles($styles);
+                }
+            }
+        }
+        return json_encode($styles);
+    }
+
     public function init()
     {
         parent::init();
         Requirements::css('https://openlayers.org/en/v3.19.1/css/ol.css');
         Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
         Requirements::javascript('https://openlayers.org/en/v3.19.1/build/ol.js');
-        Requirements::javascript('openlayers3/javascript/OL3MapPage-init.js');
+        Requirements::javascript('openlayers3/javascript/OL3.base.js');
+        Requirements::javascript('openlayers3/javascript/OL3.layer.js');
+        // Requirements::javascript('openlayers3/javascript/OL3MapPage-init.js');
     }
 }

@@ -7,11 +7,39 @@
         styles: target.data('styles')
     }
 
-    var styleCache = {};
-    var layers = [];
+    var styleCache = {},
+        layers = [],
+        styles = [];
+
+    var createStyle = {
+        OL3StyleStyle: function(config, text) {
+            return new ol.style.Style({
+                fill: getStyle(config.FillID),
+                image: getStyle(config.ImageID, text),
+                stroke: getStyle(config.StrokeID),
+                text: getStyle(config.TextID, text),
+            });
+        },
+        OL3FillStyle: function(config) {
+            return new ol.style.Fill({
+                color: config.Color
+            });
+        },
+        OL3StrokeStyle: function(config) {
+            return new ol.style.Stroke({
+                color: config.Color,
+                width: config.Width
+            });
+        }
+    };
+
+    var getStyle = function(id, text) {
+        if (!parseInt(id)) return;
+        return createStyle[setup.styles[id].ClassName](setup.styles[id], text);
+    };
 
     var createLayer = function(config) {
-        console.log(config);
+
         var layer;
         var styleCache = {};
 
@@ -95,24 +123,9 @@
 
                     layer = new ol.layer.Vector({
                         source: source,
-                        style: new ol.style.Style({
-                            stroke: new ol.style.Stroke({
-                                color: 'rgba(180, 50, 50, 1.0)',
-                                width: 2
-                            })
-                        }),
-                        highlightStyle: new ol.style.Style({
-                            stroke: new ol.style.Stroke({
-                                color: 'rgba(255, 0, 0, 1.0)',
-                                width: 3
-                            })
-                        }),
-                        selectedStyle: new ol.style.Style({
-                            stroke: new ol.style.Stroke({
-                                color: 'rgba(50, 180, 50, 1.0)',
-                                width: 3
-                            })
-                        })
+                        style: getStyle(config.DefaultStyleID),
+                        hoverStyle: getStyle(config.HoverStyleID),
+                        selectStyle: getStyle(config.SelectStyleID)
                     });
 
                 }
@@ -154,11 +167,7 @@
         return vectorSource;
     };
 
-    for (var i = 0; i < setup.layers.length; i++) {
-        var config = setup.layers[i];
-        var layer = createLayer(config);
-        layers.push(layer);
-    }
+    for (var i = 0; i < setup.layers.length; i++) layers.push(createLayer(setup.layers[i]));
 
     // // background layer 1: topgraphy
     // layers.push(new ol.layer.Tile({
@@ -341,8 +350,13 @@
 
 
 
-    var interactions = ol.interaction.defaults();
-    interactions.push(new ol.interaction.Select({ layers: [  ] }));
+    // var interactions = ol.interaction.defaults();
+    // interactions.push(new ol.interaction.Select({
+    //     layers: interactive,
+    //     style: function(feature, resolution) {
+    //         console.log(feature, resolution);
+    //     }
+    // }));
 
     var map = new ol.Map({
         target: target.get(0),
@@ -351,7 +365,7 @@
             new ol.control.Zoom(),
             new ol.control.ZoomSlider()
         ],
-        interactions: interactions,
+        // interactions: interactions,
         view: new ol.View({
             projection: setup.view.Projection,
             center: ol.proj.fromLonLat([parseFloat(setup.view.Lon), parseFloat(setup.view.Lat)]),
@@ -362,8 +376,10 @@
     var highlight;
     var displayFeatureInfo = function(pixel) {
 
-        var feature = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-            return feature;
+        var feature, layer;
+        map.forEachFeatureAtPixel(pixel, function(f, l) {
+            feature = f;
+            layer = l;
         });
 
         if (feature !== highlight) {
@@ -371,12 +387,20 @@
                 highlight.setStyle(null);
             }
             if (feature) {
-                // console.log(feature.getProperties());
-                console.log(layer.getProperties().highlightStyle);
-                feature.setStyle(layer.getProperties().highlightStyle);
+                feature.setStyle(layer.getProperties().hoverStyle);
             }
             highlight = feature;
         }
+    };
+
+    var resolvePixel = function(pixel) {
+        var feature, layer;
+        map.forEachFeatureAtPixel(pixel, function(f, l) {
+            feature = f;
+            layer = l;
+            return 'andy';
+        });
+        return [ feature, layer ];
     };
 
     $(map.getViewport()).on('mousemove', function(evt) {
@@ -384,8 +408,8 @@
         displayFeatureInfo(pixel);
     });
 
-    // map.on('click', function(evt) {
-    //     displayFeatureInfo(evt.pixel);
-    // });
+    map.on('click', function(evt) {
+        resolvePixel(evt.pixel);
+    });
 
 }(jQuery));

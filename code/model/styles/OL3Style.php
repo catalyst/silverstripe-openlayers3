@@ -39,4 +39,9 @@ class OL3Style extends DataObject
 
         return $fields;
     }
+
+    public function getStyles(&$styles)
+    {
+        if ($this->exists()) $styles[$this->ID] = $this->toMap();
+    }
 }
