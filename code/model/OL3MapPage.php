@@ -55,6 +55,7 @@ class OL3MapPage_Controller extends Page_Controller
         Requirements::javascript('https://openlayers.org/en/v3.19.1/build/ol.js');
         Requirements::javascript('openlayers3/javascript/OL3.base.js');
         Requirements::javascript('openlayers3/javascript/OL3.layer.js');
+        Requirements::javascript('openlayers3/javascript/OL3.interaction.js');
         // Requirements::javascript('openlayers3/javascript/OL3MapPage-init.js');
     }
 }

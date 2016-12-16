@@ -1,3 +1,5 @@
+// @requires OL3.base.js
+
 function OL3(config) {
 
     var ol3 = this,
@@ -48,30 +50,53 @@ function OL3(config) {
     };
 
     ol3.style = {
-        get: function(id, text) {
+        get: function(id, feature) {
             if (!parseInt(id)) return;
             var styleConfig = ol3.config.styles[id];
             var factoryName = styleConfig.ClassName;
-            return ol3.style.create[factoryName](styleConfig, text);
+            var style = ol3.style.create[factoryName](styleConfig, feature);
+            return style;
         },
         create: {
-            OL3StyleStyle: function(config, text) {
+            OL3StyleStyle: function(config, feature) {
                 return new ol.style.Style({
-                    fill: ol3.style.get(config.FillID),
-                    image: ol3.style.get(config.ImageID, text),
-                    stroke: ol3.style.get(config.StrokeID),
-                    text: ol3.style.get(config.TextID, text),
+                    fill: ol3.style.get(config.FillID, feature),
+                    image: ol3.style.get(config.ImageID, feature),
+                    stroke: ol3.style.get(config.StrokeID, feature),
+                    text: ol3.style.get(config.TextID, feature),
                 });
             },
-            OL3FillStyle: function(config) {
+            OL3FillStyle: function(config, feature) {
                 return new ol.style.Fill({
                     color: config.Color
                 });
             },
-            OL3StrokeStyle: function(config) {
+            OL3StrokeStyle: function(config, feature) {
                 return new ol.style.Stroke({
                     color: config.Color,
                     width: config.Width
+                });
+            },
+            OL3TextStyle: function(config, feature) {
+
+                // @todo: work out a more versatile way to utilise feature, not only for OL3TextStyles
+
+                var text = {}, features;
+
+                if ((features = feature.get('features'))) {
+                    text.size = feature.get('features').length.toString();
+                }
+
+                return new ol.style.Text({
+                    text: text.size,
+                    fill: ol3.style.get(config.FillID, feature)
+                });
+            },
+            OL3CircleStyle: function(config, feature) {
+                return new ol.style.Circle({
+                    radius: config.Radius,
+                    fill: ol3.style.get(config.FillID, feature),
+                    stroke: ol3.style.get(config.StrokeID, feature)
                 });
             }
         }
@@ -86,12 +111,12 @@ function OL3(config) {
 OL3.extensions = [];
 OL3.extend = function(extension) { OL3.extensions.push(extension); };
 
+// this init code and needs to go elsewhere
 (function($) {
     $(function() {  // IMPORTANT!! wait for all OL3 extensions to be loaded
         var ol3 = new OL3();
         map = ol3.render();
-        // console.log(andy.style.get('11'));
-
         ol3.layer.init();
+        ol3.interaction.init();
     });
 }(jQuery));
