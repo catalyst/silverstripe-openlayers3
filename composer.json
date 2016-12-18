@@ -1,0 +1,20 @@
+{
+	"name": "silverstripe/openlayers3",
+	"type": "silverstripe-module",
+	"description": "Openlayer3 for Silverstripe",
+	"keywords": ["silverstripe", "openlayers3"],
+	"authors": [
+		{
+			"name": "Andreas Piening",
+			"email": "andreaspiening@catalyst.net.nz"
+		}
+	],
+	"require": {
+		"php": ">=5.3.2",
+		"composer/installers": "*"
+	},
+	"require-dev": {
+		"phpunit/PHPUnit": "~3.7@stable"
+	},
+	"minimum-stability": "dev"
+}

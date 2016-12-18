@@ -83,7 +83,7 @@ function OL3(config) {
 
                 var text = {}, features;
 
-                if ((features = feature.get('features'))) {
+                if (feature (features = feature.get('features'))) {
                     text.size = feature.get('features').length.toString();
                 }
 

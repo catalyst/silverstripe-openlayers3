@@ -40,29 +40,28 @@ OL3.extend(function(){
 
                 if (config.SourceType == 'point') {
                     source = ol3.source.create.Group(config);
-                    style = ol3.layer.StyleCallback(config.DefaultStyleID);
-                    hoverStyle = ol3.layer.StyleCallback(config.HoverStyleID);
-                    selectStyle = ol3.layer.StyleCallback(config.SelectStyleID);
                 } else {
                     source = ol3.source.create.Vector(config);
-                    style = ol3.style.get(config.DefaultStyleID);
-                    hoverStyle = ol3.style.get(config.HoverStyleID);
-                    selectStyle = ol3.style.get(config.SelectStyleID);
                 }
 
                 return new ol.layer.Vector({
                     source: source,
                     opacity: parseFloat(config.Opacity),
                     visible: config.Visible == '1',
-                    style: ol3.layer.StyleCallback(config.DefaultStyleID),
-                    hoverStyle: ol3.layer.StyleCallback(config.HoverStyleID),
-                    selectStyle: ol3.layer.StyleCallback(config.SelectStyleID)
+                    style: ol3.layer.StyleCallback(config.DefaultStyleID, config.SourceType, 'style'),
+                    hoverStyle: ol3.layer.StyleCallback(config.HoverStyleID, config.SourceType, 'hover'),
+                    selectStyle: ol3.layer.StyleCallback(config.SelectStyleID, config.SourceType, 'select')
                 });
             }
         },
-        StyleCallback: function(styleId) {
+        StyleCallback: function(styleId, _type, _styleType) {
             return function(feature) {
-                console.log(styleId, feature);
+                // if this callback is executed as ol.FeatureStyleFunction() instaed of ol.FStyleFunction()
+                // the feature param contains the resolution not a feature
+                // @see https://github.com/openlayers/ol3/issues/5902
+                // @see http://openlayers.org/en/v3.19.1/apidoc/ol.html#.StyleFunction
+                // @see http://openlayers.org/en/v3.19.1/apidoc/ol.html#.FeatureStyleFunction
+                feature = feature instanceof ol.Feature ? feature : undefined;
                 return ol3.style.get(styleId, feature);
             };
         }

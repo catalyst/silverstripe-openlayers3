@@ -15,10 +15,6 @@ OL3.extend(function(){
                 return;
             }
 
-            // $(map.getViewport()).on('mousemove', function(evt) {
-            //     ol3.interaction.refire(evt, map.getEventPixel(evt.originalEvent));
-            // });
-            //
             map.on(
                 [
                     'click',
@@ -33,6 +29,7 @@ OL3.extend(function(){
 
             // attach click and move listeners to all vector layers
             ol3.cache.map.getLayers().forEach(function(layer){
+
                 if (layer instanceof ol.layer.Vector) {
 
                     layer.addEventListener('moveInFeature', function(e) {
