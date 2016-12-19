@@ -61,12 +61,14 @@ OL3.extend(function(){
 
             map.forEachFeatureAtPixel(pixel, function(feature, layer) {
 
+                feature.layer = layer;
+
                 // mock up moveIn event
                 if (evt.type == 'pointermove') {
 
-                    currentlyHovered.push({layer:layer,feature:feature});
+                    currentlyHovered.push(feature);
 
-                    if (ol3.interaction.previouslyHovered.indexOf({layer:layer,feature:feature}) < 0) {
+                    if (ol3.interaction.previouslyHovered.indexOf(feature) < 0) {
                         ol3.interaction.trigger('moveInFeature', layer, {
                             feature: feature,
                             layer: layer,
@@ -94,7 +96,7 @@ OL3.extend(function(){
 
                     for (var i = 0; i < movedOut.length; i++) {
                         ol3.interaction.trigger('moveOutFeature', movedOut[i].layer, {
-                            feature: movedOut[i].feature,
+                            feature: movedOut[i],
                             layer: movedOut[i].layer,
                             pixel: pixel,
                             originalEvent: evt

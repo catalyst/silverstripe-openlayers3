@@ -110,13 +110,3 @@ function OL3(config) {
 
 OL3.extensions = [];
 OL3.extend = function(extension) { OL3.extensions.push(extension); };
-
-// this init code and needs to go elsewhere
-(function($) {
-    $(function() {  // IMPORTANT!! wait for all OL3 extensions to be loaded
-        var ol3 = new OL3();
-        map = ol3.render();
-        ol3.layer.init();
-        ol3.interaction.init();
-    });
-}(jQuery));
