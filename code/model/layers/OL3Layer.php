@@ -22,7 +22,7 @@ class OL3Layer extends DataObject
         'Visible',
     ];
 
-    private static $has_one = [ 'Map' => 'OL3Map' ];
+    private static $belongs_many_many = [ 'Map' => 'OL3Map' ];
 
     public function getCMSFields()
     {
