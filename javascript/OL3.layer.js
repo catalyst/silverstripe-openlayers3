@@ -8,8 +8,9 @@ OL3.extend(function(){
         init: function() {
             for (var i = 0; i < ol3.config.layers.length; i++) {
 
-                var layer = ol3.config.layers[i],
-                    factoryName = layer.ClassName,
+                var layer,
+                    layerConfig = ol3.config.layers[i],
+                    factoryName = layerConfig.ClassName,
                     factory = this.create[factoryName],
                     map = ol3.cache.map;
 
@@ -18,7 +19,9 @@ OL3.extend(function(){
                     return;
                 }
 
-                map.addLayer(factory(layer));
+                layer = factory(layerConfig);
+                layer.set('Title', layerConfig.Title);
+                map.addLayer(layer);
             }
         },
         create: {
