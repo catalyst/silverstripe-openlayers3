@@ -2,8 +2,8 @@
 
 class OL3Map extends DataObject
 {
-    private static $singular_name = 'OpenLayer3 Map';
-    private static $plural_name = 'OpenLayer3 Maps';
+    private static $singular_name = 'Map';
+    private static $plural_name = 'Maps';
 
     private static $db = [
         'Title' => 'Varchar',
@@ -11,10 +11,6 @@ class OL3Map extends DataObject
         'Lat' => 'Decimal',
         'Lon' => 'Decimal',
         'Zoom' => 'Int',
-    ];
-
-    private static $has_many = [
-        'Pages' => 'OL3MapPage',
     ];
 
     private static $many_many = [
@@ -38,5 +34,37 @@ class OL3Map extends DataObject
         }
 
         return $fields;
+    }
+
+    public function JsonView()
+    {
+        return json_encode(array_intersect_key($this->toMap(), array_flip(['Lat', 'Lon', 'Zoom', 'Projection'])));
+    }
+
+    public function JsonLayers()
+    {
+        return json_encode($this->Layers()->toNestedArray());
+    }
+
+    public function JsonStyles()
+    {
+        $styles = [];
+        foreach ($this->Layers() as $layer) {
+            if ($layer->hasMethod('getStyles')) {
+                $layer->getStyles($styles);
+            }
+        }
+        return json_encode($styles);
+    }
+
+    public function forTemplate()
+    {
+        Requirements::css('https://openlayers.org/en/v3.19.1/css/ol.css');
+        Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
+        Requirements::javascript('https://openlayers.org/en/v3.19.1/build/ol.js');
+        Requirements::javascript('openlayers3/javascript/OL3.base.js');
+        Requirements::javascript('openlayers3/javascript/OL3.layer.js');
+        Requirements::javascript('openlayers3/javascript/OL3.interaction.js');
+        return $this->renderWith(__CLASS__);
     }
 }
