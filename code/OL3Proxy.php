@@ -21,30 +21,6 @@ class OL3Proxy_Controller extends Controller
     protected static $allowed_host = array('localhost');
 
     /**
-     * Sets the array of allowed hosts.
-     *
-     * @codeCoverageIgnore
-     *
-     * @param array $value string-array of allowed hosts, i.e. IP addresses.
-     */
-    public static function set_allowed_host($value)
-    {
-        self::$allowed_host = $value;
-    }
-
-    /**
-     * Returns an array of allowed hosts.
-     *
-     * @codeCoverageIgnore
-     *
-     * @return array list of all allowed hosts
-     */
-    public static function get_allowed_host()
-    {
-        return self::$allowed_host;
-    }
-
-    /**
      * This method passes through an HTTP request to another webserver.
      * This proxy is used to avoid any cross domain issues. The proxy
      * uses a white-list of domains to minimize security risks.
@@ -58,7 +34,6 @@ class OL3Proxy_Controller extends Controller
      */
     public function dorequest($data)
     {
-        header("Content-Type: text/xml");
         $headers   = array();
         $vars      = $data->requestVars();
         $no_header = false;
@@ -74,8 +49,8 @@ class OL3Proxy_Controller extends Controller
 
         $checkUrl = explode("/", $url);
 
-        if (!in_array($checkUrl[2], self::get_allowed_host())) {
-            // return "Access denied to ($url).";
+        if (!in_array($checkUrl[2], $this->config()->get('allowed_host'))) {
+            return "Access denied to ($url).";
         }
 
         // If it's a POST, put the POST data in the body
