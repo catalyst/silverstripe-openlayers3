@@ -63,7 +63,9 @@ class OL3Map extends DataObject
         Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
         Requirements::javascript('https://openlayers.org/en/v3.19.1/build/ol.js');
         Requirements::javascript('openlayers3/javascript/OL3.base.js');
+        Requirements::javascript('openlayers3/javascript/OL3.html.js');
         Requirements::javascript('openlayers3/javascript/OL3.layer.js');
+        Requirements::javascript('openlayers3/javascript/OL3.layersPanel.js');
         Requirements::javascript('openlayers3/javascript/OL3.interaction.js');
         return $this->renderWith(__CLASS__);
     }
