@@ -73,11 +73,14 @@ OL3.extend(function(){
             for (var i in key) this.attr(i, key[i]);
             return this;
         } else if(val === undefined) {
-            return this.get()[key];
+            var element = this.get();
+            return element[key] || this.getAttribute(key);
         }
 
         this.each(function(){
-            this.get()[key] = val;
+            var element = this.get();
+            element[key] = val;
+            element.setAttribute(key, val);
         });
 
         return this;
@@ -112,6 +115,26 @@ OL3.extend(function(){
 
         return this;
 
+    };
+
+    _html.prototype.css = function(key, val) {
+
+        if (typeof key === 'object') {
+            for (var i in key) this.css(i, key[i]);
+            return this;
+        } else if(val === undefined) {
+            var element = this.get();
+            if (typeof element !== 'object' || element.nodeType !== 1) return undefined;
+            return window.getComputedStyle(element).getPropertyValue(key);
+        }
+
+        this.each(function(){
+            var element = this.get();
+            if (typeof element !== 'object' || element.nodeType !== 1) return;
+            element.style[key] = val;
+        });
+
+        return this;
     };
 
     ol3.html = _html;
