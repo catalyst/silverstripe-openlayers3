@@ -47,5 +47,4 @@ OL3.extend(function(){
             });
         }
     };
-
 });

@@ -6,18 +6,20 @@ OL3.extend(function(){
 
     ol3.layer = {
         init: function() {
+
+            var map = ol3.cache.map;
+
+            if (!map) {
+                console.err('please render map before initialising layers.');
+                return;
+            }
+
             for (var i = 0; i < ol3.config.layers.length; i++) {
 
                 var layer,
                     layerConfig = ol3.config.layers[i],
                     factoryName = layerConfig.ClassName,
-                    factory = this.create[factoryName],
-                    map = ol3.cache.map;
-
-                if (!map) {
-                    console.error('please render map before initialising layers.');
-                    return;
-                }
+                    factory = this.create[factoryName];
 
                 layer = factory(layerConfig);
                 layer.set('Title', layerConfig.Title);
