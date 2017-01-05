@@ -28,15 +28,7 @@ class OL3Layer extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        $fields->addFieldToTab(
-            'Root.Main',
-            $fields->dataFieldByName('Opacity')
-                ->setAttribute('type', 'range')
-                ->setAttribute('min', '0')
-                ->setAttribute('max', '1')
-                ->setAttribute('step', '0.1'),
-            'Visible'
-        );
+        $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Opacity')->setRange(0,1,.1), 'Visible');
 
         $fields->removeByName('MapID');
 

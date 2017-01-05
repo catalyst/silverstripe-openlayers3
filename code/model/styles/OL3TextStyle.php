@@ -13,7 +13,7 @@ class OL3TextStyle extends OL3Style
 
     private static $has_one = [
         'Fill' => 'OL3FillStyle',
-        // 'Stroke' => 'OL3StrokeStyle',
+        'Stroke' => 'OL3StrokeStyle',
     ];
 
     // private static $defaults = [

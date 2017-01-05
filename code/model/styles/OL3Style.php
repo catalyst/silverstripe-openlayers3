@@ -1,5 +1,5 @@
-<?php
 
+<?php
 class OL3Style extends DataObject
 {
     private static $singular_name = 'Style';
@@ -19,22 +19,28 @@ class OL3Style extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        // select layer type on creation
-        if (!$this->exists() && $this->ClassName = __CLASS__) {
+        foreach ($this->config()->get('has_one') ?: [] as $componentName => $className) {
 
-            $subclasses = ClassInfo::subclassesFor(__CLASS__);
+            if (substr($className, -5) != 'Style') continue;
 
-            if (isset($subclasses[__CLASS__])) {
-                unset($subclasses[__CLASS__]);
+            $fields->addFieldToTab('Root.Main', HeaderField::create($componentName));
+
+            $component = $this->$componentName() ?: Object::create($className);
+
+            foreach ($component->getCMSFields()->dataFields() as $fieldName => $field) {
+
+                $name = $componentName . '_' . $field->getName();
+                $title = $componentName . ' ' . $field->Title();
+                $field->setName($name)->setTitle($title);
+
+
+                if (strpos($fieldName, '_') === false) {
+                    $field->setValue($component->$fieldName);
+                }
+                $fields->addFieldToTab('Root.Main', $field);
             }
 
-            if (isset($subclasses['OL3ImageStyle'])) {
-                unset($subclasses['OL3ImageStyle']);
-            }
-
-            if (count($subclasses)) {
-                $fields->addFieldToTab('Root.Main', DropdownField::create('ClassName', 'Style Type', $subclasses));
-            }
+            $fields->removeByName($componentName . 'ID');
         }
 
         return $fields;
@@ -43,5 +49,29 @@ class OL3Style extends DataObject
     public function getStyles(&$styles)
     {
         if ($this->exists()) $styles[$this->ID] = $this->toMap();
+    }
+
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+
+        $data = Controller::curr()->getRequest()->postVars();
+        $components = [];
+        foreach ($this->record as $key => $val) {
+            $segments = explode('_', $key);
+            $componentName = array_shift($segments);
+            if (count($segments)) {
+                if (empty($components[$componentName])) {
+                    $components[$componentName] = $this->$componentName() ?: Object::create($componentName);
+                }
+                $componentPropertyName = implode('_', $segments);
+
+                $components[$componentName]->$componentPropertyName = $val;
+            }
+        }
+
+        foreach ($components as $componentName => $component) {
+            $this->setField($componentName . 'ID', $component->write());
+        }
     }
 }

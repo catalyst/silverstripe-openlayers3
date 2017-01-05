@@ -7,16 +7,11 @@ class OL3FillStyle extends OL3Style
 
     private static $db = [ 'Color' => 'Varchar' ];
 
-    public function getTitle()
-    {
-        return $this->exists() ? "Fill Color: {$this->Color}" : 'new Fill Style';
-    }
-
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
-        $fields->dataFieldByName('Color')->setAttribute('type', 'color');
+        $fields->replaceField('Color', ColorField::create('Color'));
 
         return $fields;
     }

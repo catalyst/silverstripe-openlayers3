@@ -5,11 +5,6 @@ class OL3ImageStyle extends OL3Style
     private static $singular_name = 'Image Style';
     private static $plural_name = 'Image Styles';
 
-    public function getTitle()
-    {
-        return 'new Image Style';
-    }
-
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
