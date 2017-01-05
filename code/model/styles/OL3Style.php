@@ -21,22 +21,28 @@ class OL3Style extends DataObject
 
         foreach ($this->config()->get('has_one') ?: [] as $componentName => $className) {
 
-            if (substr($className, -5) != 'Style') continue;
+            if (!is_a($className, 'OL3Style', true)) continue;
 
             $fields->addFieldToTab('Root.Main', HeaderField::create($componentName));
 
-            $component = $this->$componentName() ?: Object::create($className);
+            if ($this->has_one($componentName)) $component = $this->$componentName() ?: Object::create($className);
 
             foreach ($component->getCMSFields()->dataFields() as $fieldName => $field) {
 
                 $name = $componentName . '_' . $field->getName();
                 $title = $componentName . ' ' . $field->Title();
-                $field->setName($name)->setTitle($title);
-
 
                 if (strpos($fieldName, '_') === false) {
-                    $field->setValue($component->$fieldName);
+
+                    if (is_a($component->has_one($fieldName), 'File', true) && $field instanceof UploadField) {
+                        $field->setValue(null, $component);
+                    } else {
+                        $field->setValue($component->$fieldName);
+                    }
                 }
+
+                $field->setName($name)->setTitle($title);
+
                 $fields->addFieldToTab('Root.Main', $field);
             }
 
@@ -53,7 +59,13 @@ class OL3Style extends DataObject
 
             $components = $this->config()->get('has_one');
             if ($components) foreach($components as $componentName => $componentClass) {
-                if (substr($componentClass, -5) == 'Style' && $curr = $this->$componentName()) $curr->getStyles($styles);
+                if (is_a($componentClass, 'OL3Style', true) && $curr = $this->$componentName()) {
+                    // traverse deeper into the nested style structure
+                    $curr->getStyles($styles);
+                } else if (is_a($componentClass, 'File', true) && $curr = $this->$componentName()) {
+                    // add Filename for file components
+                    $styles[$this->ID][$componentName . 'SRC'] = $curr->Filename;
+                }
             }
         }
     }
@@ -69,7 +81,12 @@ class OL3Style extends DataObject
             $componentName = array_shift($segments);
             if (count($segments)) {
                 if (empty($components[$componentName])) {
-                    $components[$componentName] = $this->$componentName() ?: Object::create($componentName);
+                    if ($this->has_one($componentName)) {
+                        $components[$componentName] = $this->$componentName() ?: Object::create($componentName);
+                    } else {
+                        // class-has-changed situation
+                        continue;
+                    }
                 }
                 $componentPropertyName = implode('_', $segments);
 
@@ -83,5 +100,6 @@ class OL3Style extends DataObject
         foreach ($components as $componentName => $component) {
             $this->setField($componentName . 'ID', $component->write());
         }
+        if ($this instanceof OL3StyleStyle) var_dump($this->record);
     }
 }

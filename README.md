@@ -19,4 +19,4 @@ After installation, make sure you rebuild your database through `dev/build`.
 
  * [Documentation](docs/en/index.md)
  * [OpenLayers 3 website](https://openlayers.org/)
- * [OpenLayers 3 on GitHub](https://github.com/silverstripe/silverstripe-framework/issues)
+ * [OpenLayers 3 on GitHub](https://github.com/openlayers/ol3)

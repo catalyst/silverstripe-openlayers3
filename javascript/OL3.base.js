@@ -104,6 +104,7 @@ function OL3(config) {
             OL3RegularShapeStyle: function(config, feature) {
                 var shape = {
                     points: config.Points,
+                    angle: (config.Angle / 180) * Math.PI,
                     fill: ol3.style.get(config.FillID, feature),
                     stroke: ol3.style.get(config.StrokeID, feature)
                 };
@@ -114,6 +115,13 @@ function OL3(config) {
                     shape.radius2 = config.OuterRadius;
                 }
                 return new ol.style.RegularShape(shape);
+            },
+            OL3IconStyle: function(config, feature) {
+                return new ol.style.Icon({
+                    src: config.IconSRC,
+                    scale: config.Scale,
+                    opacity: config.Opacity
+                });
             }
         }
     };
