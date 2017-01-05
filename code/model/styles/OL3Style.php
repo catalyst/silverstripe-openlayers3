@@ -48,7 +48,14 @@ class OL3Style extends DataObject
 
     public function getStyles(&$styles)
     {
-        if ($this->exists()) $styles[$this->ID] = $this->toMap();
+        if ($this->exists()) {
+            $styles[$this->ID] = $this->toMap();
+
+            $components = $this->config()->get('has_one');
+            if ($components) foreach($components as $componentName => $componentClass) {
+                if (substr($componentClass, -5) == 'Style' && $curr = $this->$componentName()) $curr->getStyles($styles);
+            }
+        }
     }
 
     public function onBeforeWrite()

@@ -18,15 +18,6 @@ class OL3StyleStyle extends OL3Style
 
     public function getTitle()
     {
-        return $this->exists() ? $this->getField('Title') : 'new Stroke Style';
-    }
-
-    public function getStyles(&$styles)
-    {
-        parent::getStyles($styles);
-
-        foreach(['Fill', 'Image', 'Stroke', 'Text'] as $style) {
-            if ($curr = $this->$style()) $curr->getStyles($styles);
-        }
+        return $this->exists() ? $this->getField('Title') : 'new Style';
     }
 }

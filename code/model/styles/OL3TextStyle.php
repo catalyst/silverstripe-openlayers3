@@ -20,9 +20,4 @@ class OL3TextStyle extends OL3Style
     //     'Font' => '10px sans-serif',
     //     'TextAlign' => 'start',
     // ];
-
-    public function getTitle()
-    {
-        return $this->exists() ? "Text: {$this->Text}" : 'new Text Style';
-    }
 }
