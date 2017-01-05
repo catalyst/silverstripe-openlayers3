@@ -1,0 +1,3 @@
+NumericField:
+  extensions:
+    - RangeExtension

@@ -1,0 +1,27 @@
+input[type="color"],
+input[type="range"],
+.opacity-range {
+    height:30px;
+}
+.range-label {
+    width:100%;
+    max-width: 512px;
+    text-align:center;
+}
+.range-label:after {
+    content:attr(data-unit);
+}
+
+.color-picker,
+.opacity-range {
+    background: #fff linear-gradient(#eaeaea, #ffffff 10%) repeat scroll 0 0 / 100% auto;
+    border: 1px solid #b3b3b3;
+    border-radius: 4px;
+    height:30px;
+    box-sizing: border-box;
+    padding: 7px;
+    line-height: 16px;
+    vertical-align:bottom;
+    width:49%;
+    max-width:251px;
+}
