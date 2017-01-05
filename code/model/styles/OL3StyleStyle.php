@@ -11,9 +11,9 @@ class OL3StyleStyle extends OL3Style
 
     private static $has_one = [
         'Fill' => 'OL3FillStyle',
-        'Image' => 'OL3ImageStyle',
         'Stroke' => 'OL3StrokeStyle',
         'Text' => 'OL3TextStyle',
+        'Image' => 'OL3ImageStyle',
     ];
 
     public function getTitle()

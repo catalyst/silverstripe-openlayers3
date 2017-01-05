@@ -89,12 +89,22 @@ function OL3(config) {
 
                 return new ol.style.Text({
                     text: text.size,
-                    fill: ol3.style.get(config.FillID, feature)
+                    textAlign: config.TextAlign,
+                    fill: ol3.style.get(config.FillID, feature),
+                    stroke: ol3.style.get(config.StrokeID, feature)
                 });
             },
             OL3CircleStyle: function(config, feature) {
                 return new ol.style.Circle({
                     radius: config.Radius,
+                    fill: ol3.style.get(config.FillID, feature),
+                    stroke: ol3.style.get(config.StrokeID, feature)
+                });
+            },
+            OL3RegularShapeStyle: function(config, feature) {
+                return new ol.style.RegularShape({
+                    radius1: config.InnerRadius,
+                    radius2: config.OuterRadius,
                     fill: ol3.style.get(config.FillID, feature),
                     stroke: ol3.style.get(config.StrokeID, feature)
                 });

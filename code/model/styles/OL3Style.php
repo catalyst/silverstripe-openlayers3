@@ -73,7 +73,11 @@ class OL3Style extends DataObject
                 }
                 $componentPropertyName = implode('_', $segments);
 
-                $components[$componentName]->$componentPropertyName = $val;
+                if ($componentPropertyName == 'ClassName') {
+                    $components[$componentName] = $components[$componentName]->newClassInstance($val);
+                } else {
+                    $components[$componentName]->$componentPropertyName = $val;
+                }
             }
         }
 
