@@ -102,12 +102,18 @@ function OL3(config) {
                 });
             },
             OL3RegularShapeStyle: function(config, feature) {
-                return new ol.style.RegularShape({
-                    radius1: config.InnerRadius,
-                    radius2: config.OuterRadius,
+                var shape = {
+                    points: config.Points,
                     fill: ol3.style.get(config.FillID, feature),
                     stroke: ol3.style.get(config.StrokeID, feature)
-                });
+                };
+                if (parseInt(config.InnerRadius) === 0) {
+                    shape.radius = config.OuterRadius;
+                } else {
+                    shape.radius1 = config.InnerRadius;
+                    shape.radius2 = config.OuterRadius;
+                }
+                return new ol.style.RegularShape(shape);
             }
         }
     };
