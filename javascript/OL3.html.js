@@ -74,13 +74,30 @@ OL3.extend(function(){
             return this;
         } else if(val === undefined) {
             var element = this.get();
-            return element[key] || this.getAttribute(key);
+            return element.getAttribute(key);
+        }
+
+        this.each(function(){
+            var element = this.get();
+            element.setAttribute(key, val);
+        });
+
+        return this;
+    };
+
+    _html.prototype.prop = function(key, val) {
+
+        if (typeof key === 'object') {
+            for (var i in key) this.prop(i, key[i]);
+            return this;
+        } else if(val === undefined) {
+            var element = this.get();
+            return element[key];
         }
 
         this.each(function(){
             var element = this.get();
             element[key] = val;
-            element.setAttribute(key, val);
         });
 
         return this;

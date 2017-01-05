@@ -31,14 +31,14 @@ OL3.extend(function(){
                     title = '" ' + layer.get('Title') + '"',
                     item = new ol3.html('<li>').append(new ol3.html('<label>').append(checkbox).append(title));
 
-                if (layer.getVisible()) checkbox.attr('checked', true);
+                if (layer.getVisible()) checkbox.attr('checked', 'checked');
 
                 checkbox.on('click', function(){
 
                     var checkbox = new ol3.html(this),
                         layer = checkbox.data('layer');
 
-                    layer.setVisible(checkbox.attr('checked'));
+                    layer.setVisible(checkbox.prop('checked'));
 
                 });
 
