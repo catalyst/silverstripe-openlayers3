@@ -11,8 +11,8 @@ class OL3StrokeStyle extends OL3Style
     ];
 
     private static $defaults = [
-        'Color' => '#a00',
-        'Width' => '2',
+        'Color' => 'rgba(192,0,0,.5)',
+        'Width' => '1',
     ];
 
     public function getCMSFields()

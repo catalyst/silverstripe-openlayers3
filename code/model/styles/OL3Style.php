@@ -100,6 +100,5 @@ class OL3Style extends DataObject
         foreach ($components as $componentName => $component) {
             $this->setField($componentName . 'ID', $component->write());
         }
-        if ($this instanceof OL3StyleStyle) var_dump($this->record);
     }
 }

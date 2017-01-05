@@ -18,9 +18,10 @@ class OL3RegularShapeStyle extends OL3ImageStyle
     ];
 
     private static $defaults = [
-        'Radius' => '20',
-        'Radius' => '20',
-        'Points' => '3',
+        'InnerRadius' => 0,
+        'OuterRadius' => 25,
+        'Points' => 3,
+        'Angle' => 0,
     ];
 
     public function getCMSFields()
