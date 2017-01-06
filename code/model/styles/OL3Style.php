@@ -7,7 +7,6 @@ class OL3Style extends DataObject
 
     private static $summary_fields = [
         'Title' => 'Title',
-        'singular_name' => 'Type',
     ];
 
     public function getTitle()

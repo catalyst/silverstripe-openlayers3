@@ -6,8 +6,6 @@ class OL3TextStyle extends OL3Style
     private static $plural_name = 'Text Styles';
 
     private static $db = [
-    //     'Text' => 'Varchar(255)',
-    //     'Font' => 'Varchar',
         'TextAlign' => "Enum('left,right,center,end,start','start')",
     ];
 
@@ -17,7 +15,6 @@ class OL3TextStyle extends OL3Style
     ];
 
     private static $defaults = [
-    //     'Font' => '10px sans-serif',
         'TextAlign' => 'start',
     ];
 }

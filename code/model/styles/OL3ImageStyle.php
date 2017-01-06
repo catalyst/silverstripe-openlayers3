@@ -19,6 +19,10 @@ class OL3ImageStyle extends OL3Style
             $fields->addFieldToTab('Root.Main', DropdownField::create('ClassName', 'Image Style Type', $subclasses));
         }
 
+        if ($this->ClassName == __CLASS__) {
+            $fields->addFieldToTab('Root.Main', HeaderField::create('Notice', 'Please save record to see more fields for the specific record type you selected.'));
+        }
+
         return $fields;
     }
 }

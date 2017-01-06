@@ -8,9 +8,14 @@ class OL3Map extends DataObject
     private static $db = [
         'Title' => 'Varchar',
         'Projection' => 'Varchar',
-        'Lat' => 'Decimal',
-        'Lon' => 'Decimal',
+        'Lat' => 'Decimal(12,5)',
+        'Lon' => 'Decimal(12,5)',
         'Zoom' => 'Int',
+    ];
+
+    private static $field_labels = [
+        'Lat' => 'Latitude',
+        'Lon' => 'Longitude',
     ];
 
     private static $many_many = [
@@ -18,7 +23,9 @@ class OL3Map extends DataObject
     ];
 
     private static $many_many_extraFields = [
-        'Layers' => [ 'SortOrder' => 'Int' ],
+        'Layers' => [
+            'SortOrder' => 'Int',
+        ],
     ];
 
     public function Layers() {
@@ -29,9 +36,12 @@ class OL3Map extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        if ($this->exists()) {
-            $fields->dataFieldByName('Layers')->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+        if ($field = $fields->dataFieldByName('Layers')) {
+            $field->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
         }
+
+        $fields->dataFieldByName('Zoom')->setRange(0, 30);
+        $fields->dataFieldByName('Projection')->setRightTitle('Common values are "EPSG:3857" or "EPSG:4326", leave empty for server side default projection');
 
         return $fields;
     }

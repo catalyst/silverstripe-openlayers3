@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This module provides provides the glue between the Silverstripe framewaork and the OpenLayers 3 javascript library. You can create maps in the backend, add layers and style features. You get a OL3Map DataObject e.g. to be used in your custom page types.
+This module provides the glue between the Silverstripe framewaork and the OpenLayers 3 javascript library. You can create maps in the CMS, add layers and style features. You get a OL3Map DataObject e.g. to be used in your custom page types.
 
 ## Requirements
 
@@ -11,7 +11,7 @@ This module provides provides the glue between the Silverstripe framewaork and t
 ## Installation
 
 Installation can be done either by composer or by manually downloading the
-release from Github.
+release from Gitlab.
 
 After installation, make sure you rebuild your database through `dev/build`.
 

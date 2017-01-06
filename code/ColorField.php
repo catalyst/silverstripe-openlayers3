@@ -9,7 +9,6 @@ class ColorField extends TextField
 			return true;
 		}
 
-        // ___()
 		if(preg_match('/' . $this->config()->get('regex') . '/', $this->value)) return true;
 
 		$validator->validationError(
