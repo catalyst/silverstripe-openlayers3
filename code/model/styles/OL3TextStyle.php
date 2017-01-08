@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Representation of an Openlayers3 ol.style.Text
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ * @link http://openlayers.org/en/v3.19.1/apidoc/ol.style.Text.html
+ */
+
 class OL3TextStyle extends OL3Style
 {
     private static $singular_name = 'Text Style';

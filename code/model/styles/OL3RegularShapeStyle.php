@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Representation of an Openlayers3 ol.style.RegularShape
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ * @link http://openlayers.org/en/v3.19.1/apidoc/ol.style.RegularShape.html
+ */
+
 class OL3RegularShapeStyle extends OL3ImageStyle
 {
     private static $singular_name = 'Regular Shape Style';

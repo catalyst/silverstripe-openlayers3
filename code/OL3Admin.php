@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * ModelAdmin pane to edit Ol3Maps and OL3Styles
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ */
+
 class OL3Admin extends ModelAdmin
 {
     private static $menu_title = 'OpenLayers3';

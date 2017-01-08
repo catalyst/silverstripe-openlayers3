@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Representation of an Openlayers3 ol.layer.Vector
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ * @link http://openlayers.org/en/v3.19.1/apidoc/ol.layer.Vector.html
+ */
+
 class OL3VectorLayer extends OL3Layer
 {
     private static $singular_name = 'OpenLayer3 Vector Layer';
@@ -22,6 +29,7 @@ class OL3VectorLayer extends OL3Layer
     {
         $fields = parent::getCMSFields();
 
+        // reordering, setting right titels
         $fields->addFieldsToTab(
             'Root.Main',
             [
@@ -36,6 +44,13 @@ class OL3VectorLayer extends OL3Layer
         return $fields;
     }
 
+    /**
+     * Method to collect styles
+     * @param &$styles Array to which the styles get added
+     * @return void
+     * @see OL3Map::JsonStyles()
+     * @see OL3Style::getStyles()
+     */
     public function getStyles(&$styles)
     {
         foreach(['DefaultStyle', 'HoverStyle', 'SelectStyle'] as $style) {

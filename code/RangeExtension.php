@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * An extension to NumericField to display a HTML5 range slider
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ */
+
 class RangeExtension extends Extension
 {
     protected $range = [

@@ -1,16 +1,16 @@
 <?php
+
 /**
  * @author Rainer Spittel (rainer at silverstripe dot com)
  * @package openlayers
  * @subpackage code
- */
-
-/**
+ *
  * Proxy controller delegates HTTP requests to dedicated web servers.
  * To avoid any cross-domain issues within the map application (i.e. requesting
  * XML data from features shown on the map via AJAX calls), we use the
  * proxy controller which delegates requests to the provided URL.
  */
+ 
 class OL3Proxy_Controller extends Controller
 {
 

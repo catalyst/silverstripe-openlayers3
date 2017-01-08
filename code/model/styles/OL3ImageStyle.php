@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * A base class for ol.style.images
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ * @link http://openlayers.org/en/v3.19.1/apidoc/ol.style.Image.html
+ */
+
 class OL3ImageStyle extends OL3Style
 {
     private static $singular_name = 'Image Style';
@@ -9,6 +16,7 @@ class OL3ImageStyle extends OL3Style
     {
         $fields = parent::getCMSFields();
 
+        // add a class selector field
         $subclasses = ClassInfo::subclassesFor(__CLASS__);
 
         if (isset($subclasses[__CLASS__])) {
@@ -16,7 +24,7 @@ class OL3ImageStyle extends OL3Style
         }
 
         if (count($subclasses)) {
-            $fields->addFieldToTab('Root.Main', DropdownField::create('ClassName', 'Image Style Type', $subclasses));
+            $fields->addFieldToTab('Root.Main', DropdownField::create('ClassName', 'Style Type', $subclasses));
         }
 
         if ($this->ClassName == __CLASS__) {

@@ -1,7 +1,14 @@
 <?php
 
+/**
+ * A FormField to edit colors with opacity in the rgba() css format
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ */
+
 class ColorField extends TextField
 {
+    // data format to be used in php and js
     private static $regex = '^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d+)\s*\)$';
 
     public function validate($validator) {
@@ -22,6 +29,9 @@ class ColorField extends TextField
 		return false;
 	}
 
+    /**
+     * 
+     */
     public function Field($properties = array())
     {
         Requirements::javascript('openlayers/javascript/StyleFields.js');

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Representation of an Openlayers3 ol.View
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ * @link http://openlayers.org/en/v3.19.1/apidoc/ol.View.html
+ */
+
 class OL3Map extends DataObject
 {
     private static $singular_name = 'Map';
@@ -28,6 +35,11 @@ class OL3Map extends DataObject
         ],
     ];
 
+    /**
+     * overwriting the magic compontents getter in order to return an ordered version of the resulting
+     * DataList for the CMS GridField to be sortable.
+     * @return Object DataList containing Layers component
+     */
     public function Layers() {
         return $this->getManyManyComponents('Layers')->sort('SortOrder');
     }
@@ -46,16 +58,29 @@ class OL3Map extends DataObject
         return $fields;
     }
 
+    /**
+     * Getter for the template to retrive the ol.View config object
+     * @return String Json representation $this
+     */
     public function JsonView()
     {
-        return json_encode(array_intersect_key($this->toMap(), array_flip(['Lat', 'Lon', 'Zoom', 'Projection'])));
+        return json_encode($this->toMap());
     }
 
+    /**
+     * Getter for the template to retrive the ol.layer config for all layers to be displayed
+     * @return String Json representation $this->Layers()
+     */
     public function JsonLayers()
     {
         return json_encode($this->Layers()->toNestedArray());
     }
 
+    /**
+     * Getter for the template to retrive the ol.style config for all styles attached to all layers of the map
+     * @return String Json array of all styles necessary to display all vecor layers
+     * @see OL3Style::getStyles()
+     */
     public function JsonStyles()
     {
         $styles = [];
@@ -67,6 +92,9 @@ class OL3Map extends DataObject
         return json_encode($styles);
     }
 
+    /**
+     * @return String **V** of MVC for OL3Map
+     */
     public function forTemplate()
     {
         Requirements::css('https://openlayers.org/en/v3.19.1/css/ol.css');

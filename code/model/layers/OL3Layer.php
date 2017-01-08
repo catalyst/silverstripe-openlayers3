@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * A base class for ol.layers
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * @package openlayers3
+ * @link http://openlayers.org/en/v3.19.1/apidoc/ol.layer.html
+ */
+
 class OL3Layer extends DataObject
 {
     private static $singular_name = 'OpenLayer3 Layer';
@@ -22,6 +29,12 @@ class OL3Layer extends DataObject
         'Visible',
     ];
 
+    private static $default_sort = [
+        'Title',
+        'ClassName',
+        'Visible',
+    ];
+
     private static $belongs_many_many = [
         'Map' => 'OL3Map',
     ];
@@ -30,8 +43,10 @@ class OL3Layer extends DataObject
     {
         $fields = parent::getCMSFields();
 
+        // push the field to the end of the fieldlist and add range
         $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Opacity')->setRange(0,1,.1), 'Visible');
 
+        // add a class selector field on creation
         $subclasses = ClassInfo::subclassesFor(__CLASS__);
 
         if (isset($subclasses[__CLASS__])) {
