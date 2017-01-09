@@ -5,81 +5,117 @@ OL3.extend(function(){
     var ol3 = this;
 
     ol3.featurePopup = {
+        element: undefined,
         init: function(config) {
 
             var map = ol3.cache.map,
                 config = config || {},
-                element = config.element || new ol3.html('<div>').get(),
                 close = new ol3.html('<a>').attr('class', 'close').append('"❌"');
+
+            ol3.featurePopup.element = config.element || new ol3.html('<div>').get();
+
+            new ol3.html(ol3.featurePopup.element).on('mousemove', function(evt){
+                evt.stopPropagation();
+            });
 
             new ol3.html(map.getTarget())
                 .append(
-                    new ol3.html(element)
+                    new ol3.html(ol3.featurePopup.element)
                         .attr('id', 'popup')
                         .append(close)
                 );
 
-            close.on('click', function(){
-                new ol3.html(element).css('display', 'none');
-            });
+            close.on('click', function() { ol3.featurePopup.close(); });
 
-            map.addOverlay(new ol.Overlay({ element: element, id: 'popup', autoPan: true }));
+            map.addOverlay(new ol.Overlay({ element: ol3.featurePopup.element, id: 'popup', autoPan: true }));
 
-            map.getLayers().forEach(function(layer){
+            map.on('click', function(evt){
 
-                layer.addEventListener('singleclick', function(e){
+                var features = ol3.featurePopup.getFeaturesAtPixel(evt.pixel);
 
-                    var feature = e.detail.feature,
-                        features = feature.get('features') || [],
-                        properties,
-                        list;
-
-                    switch (features.length) {
-                        case 1:
-
-                            feature = features[0];
-
-                        case 0:
-
-                            properties = feature.getProperties();
-                            list = new ol3.html('<table>');
-
-                            for (var i in properties) {
-                                var property = properties[i];
-
-                                if (typeof property === 'string') {
-                                    list.append(
-                                        new ol3.html('<tr>')
-                                            .append(
-                                                new ol3.html('<td>').append('"' + i + '"')
-                                            )
-                                            .append(
-                                                new ol3.html('<td>').append('"' + property + '"')
-                                            )
-                                    );
-                                }
-                            }
-
-                            break;
-                        default:
-
-                            list = new ol3.html('<ul>');
-                            for (var i = 0; i < features.length; i++) {
-                                list.append(new ol3.html('<li>').append('"' + features[i].get('id') + '"'));
-                            }
-
-                    }
-
-                    $('#popup table,#popup ul').remove();
-                    new ol3.html(element)
-                        .append(list)
-                        .css('display', 'block');
-
-                    map.getOverlayById('popup').setPosition(map.getCoordinateFromPixel([e.detail.pixel[0], e.detail.pixel[1]]));
-
-                });
+                if (features.length == 1) {
+                    ol3.featurePopup.popupFeature(features[0], evt.pixel);
+                } else if (features.length > 1) {
+                    ol3.featurePopup.listFeatures(features, evt.pixel);
+                } else {
+                    ol3.featurePopup.close();
+                }
 
             });
+
+        },
+        close: function() {
+            new ol3.html(ol3.featurePopup.element).css('display', 'none');
+        },
+        getFeaturesAtPixel: function(pixel) {
+
+            var map = ol3.cache.map,
+                features = [];
+
+            map.forEachFeatureAtPixel(pixel, function(feature, layer){
+                if (groupFeatures = feature.get('features')) {
+                    groupFeatures.forEach(function(feature) { features.push({ feature:feature, layer, layer }); });
+                } else {
+                    features.push({ feature:feature, layer, layer });
+                }
+            });
+
+            return features;
+        },
+        popup: function (content, pixel) {
+            console.log(content,pixel, ol3.featurePopup.element);
+            $('#popup table,#popup ul').remove();
+            new ol3.html(ol3.featurePopup.element)
+                .append(content)
+                .css('display', 'block');
+
+            map.getOverlayById('popup').setPosition(map.getCoordinateFromPixel([pixel[0], pixel[1]]));
+        },
+        popupFeature: function(feature, pixel) {
+
+            properties = feature.feature.getProperties();
+            list = new ol3.html('<table>');
+
+            for (var i in properties) {
+                var property = properties[i];
+
+                if (typeof property === 'string') {
+                    list.append(
+                        new ol3.html('<tr>')
+                            .append(
+                                new ol3.html('<td>').append('"' + i + '"')
+                            )
+                            .append(
+                                new ol3.html('<td>').append('"' + property + '"')
+                            )
+                    );
+                }
+            }
+
+            ol3.featurePopup.popup(list, pixel);
+        },
+        listFeatures: function(features, pixel) {
+
+            var list = new ol3.html('<ul>');
+
+            for (var i = 0; i < features.length; i++) {
+                var item = new ol3.html('<li>')
+                    .data('feature', features[i])
+                    .on('click', function(){ ol3.featurePopup.popupFeature(new ol3.html(this).data('feature'), pixel); })
+                    .on('mousemove', function(){ ol3.featurePopup.highlightFeature(new ol3.html(this).data('feature')); })
+                    .on('mouseout', function(){ ol3.featurePopup.lowlightFeature(new ol3.html(this).data('feature')); })
+                    .append('"' + features[i].layer.get('Title') + ': ' + features[i].feature.get('id') + '"');
+                list.append(item);
+                ol3.featurePopup.lowlightFeature(features[i]);
+            }
+
+            ol3.featurePopup.popup(list, pixel);
+        },
+        highlightFeature: function(feature) {
+            feature.feature.setStyle(feature.layer.get('hoverStyle'));
+        },
+        lowlightFeature: function(feature) {
+            feature.feature.setStyle(undefined);
         }
     };
 

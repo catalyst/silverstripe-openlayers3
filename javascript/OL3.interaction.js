@@ -1,4 +1,5 @@
 // @requires OL3.base.js
+// @requires OL3.layer.js
 
 OL3.extend(function(){
 

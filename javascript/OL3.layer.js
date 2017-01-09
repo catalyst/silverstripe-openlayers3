@@ -50,6 +50,7 @@ OL3.extend(function(){
                 }
 
                 return new ol.layer.Vector({
+                    title: config.Title,
                     source: source,
                     opacity: parseFloat(config.Opacity),
                     visible: config.Visible == '1',
