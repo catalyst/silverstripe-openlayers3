@@ -61,13 +61,21 @@ OL3.extend(function(){
         },
         StyleCallback: function(styleId, _type, _styleType) {
             return function(feature) {
+                var size;
+
                 // if this callback is executed as ol.FeatureStyleFunction() instaed of ol.FStyleFunction()
-                // the feature param contains the resolution not a feature
+                // the feature param contains the resolution not a feature, use this instead
                 // @see https://github.com/openlayers/ol3/issues/5902
                 // @see http://openlayers.org/en/v3.19.1/apidoc/ol.html#.StyleFunction
                 // @see http://openlayers.org/en/v3.19.1/apidoc/ol.html#.FeatureStyleFunction
-                feature = feature instanceof ol.Feature ? feature : undefined;
-                return ol3.style.get(styleId, feature);
+
+                feature = feature instanceof ol.Feature ? feature : this;
+
+                if (feature instanceof ol.Feature && (features = feature.get('features'))) {
+                    size = feature.get('features').length.toString();
+                }
+
+                return ol3.style.get(styleId, size);
             };
         }
     };

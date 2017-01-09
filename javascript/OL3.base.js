@@ -50,63 +50,65 @@ function OL3(config) {
     };
 
     ol3.style = {
-        get: function(id, feature) {
+        size: 0,
+        cache: {},
+        get: function(id, size) {
+
             if (!parseInt(id)) return;
-            var styleConfig = ol3.config.styles[id];
-            var factoryName = styleConfig.ClassName;
-            var style = ol3.style.create[factoryName](styleConfig, feature);
+
+            var styleConfig = ol3.config.styles[id],
+                factoryName = styleConfig.ClassName,
+                cacheId = id + ':' + size,
+                style = ol3.style.cache[cacheId] || ol3.style.create[factoryName](styleConfig, size);
+
+            if (!ol3.style.cache[cacheId]) {
+                ol3.style.cache[cacheId] = style;
+            }
+
             return style;
         },
+        // @todo: work out a more versatile way to utilise size, not only for OL3TextStyles
         create: {
-            OL3StyleStyle: function(config, feature) {
+            OL3StyleStyle: function(config, size) {
                 return new ol.style.Style({
-                    fill: ol3.style.get(config.FillID, feature),
-                    image: ol3.style.get(config.ImageID, feature),
-                    stroke: ol3.style.get(config.StrokeID, feature),
-                    text: ol3.style.get(config.TextID, feature),
+                    fill: ol3.style.get(config.FillID, size),
+                    image: ol3.style.get(config.ImageID, size),
+                    stroke: ol3.style.get(config.StrokeID, size),
+                    text: ol3.style.get(config.TextID, size),
                 });
             },
-            OL3FillStyle: function(config, feature) {
+            OL3FillStyle: function(config, size) {
                 return new ol.style.Fill({
                     color: config.Color
                 });
             },
-            OL3StrokeStyle: function(config, feature) {
+            OL3StrokeStyle: function(config, size) {
                 return new ol.style.Stroke({
                     color: config.Color,
                     width: config.Width
                 });
             },
-            OL3TextStyle: function(config, feature) {
-
-                // @todo: work out a more versatile way to utilise feature, not only for OL3TextStyles
-
-                var text = {}, features;
-
-                if (feature instanceof ol.Feature && (features = feature.get('features'))) {
-                    text.size = feature.get('features').length.toString();
-                }
-
+            OL3TextStyle: function(config, size) {
                 return new ol.style.Text({
-                    text: text.size,
+                    text: size,
                     textAlign: config.TextAlign,
-                    fill: ol3.style.get(config.FillID, feature),
-                    stroke: ol3.style.get(config.StrokeID, feature)
+                    fill: ol3.style.get(config.FillID, size),
+                    stroke: ol3.style.get(config.StrokeID, size)
                 });
             },
-            OL3CircleStyle: function(config, feature) {
+            OL3CircleStyle: function(config, size) {
                 return new ol.style.Circle({
                     radius: config.Radius,
-                    fill: ol3.style.get(config.FillID, feature),
-                    stroke: ol3.style.get(config.StrokeID, feature)
+                    fill: ol3.style.get(config.FillID, size),
+                    stroke: ol3.style.get(config.StrokeID, size)
                 });
             },
-            OL3RegularShapeStyle: function(config, feature) {
+            OL3RegularShapeStyle: function(config, size) {
                 var shape = {
                     points: config.Points,
                     angle: (config.Angle / 180) * Math.PI,
-                    fill: ol3.style.get(config.FillID, feature),
-                    stroke: ol3.style.get(config.StrokeID, feature)
+                    fill: ol3.style.get(config.FillID, size),
+                    stroke: ol3.style.get(config.StrokeID, size)
                 };
                 if (parseInt(config.InnerRadius) === 0) {
                     shape.radius = config.OuterRadius;
@@ -116,7 +118,7 @@ function OL3(config) {
                 }
                 return new ol.style.RegularShape(shape);
             },
-            OL3IconStyle: function(config, feature) {
+            OL3IconStyle: function(config, size) {
                 return new ol.style.Icon({
                     src: config.IconSRC,
                     scale: config.Scale,
