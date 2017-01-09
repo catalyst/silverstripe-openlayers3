@@ -35,18 +35,13 @@ OL3.extend(function(){
 
                     layer.addEventListener('moveInFeature', function(e) {
 
-                        var feature = e.detail.feature
-                            layer = e.detail.layer,
-                            style = layer.getProperties().hoverStyle;
-
-                        feature.setStyle(style);
+                        ol3.layer.hoverStyleFeature(e.detail.feature);
 
                     });
 
                     layer.addEventListener('moveOutFeature', function(e){
 
-                        var feature = e.detail.feature;
-                        feature.setStyle(undefined);
+                        ol3.layer.hoverStyleFeature(e.detail.feature, false);
 
                     });
                 }

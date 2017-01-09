@@ -46,6 +46,7 @@ OL3.extend(function(){
         },
         close: function() {
             new ol3.html(ol3.featurePopup.element).css('display', 'none');
+            ol3.layer.selectFeatures([]);
         },
         getFeaturesAtPixel: function(pixel) {
 
@@ -54,16 +55,20 @@ OL3.extend(function(){
 
             map.forEachFeatureAtPixel(pixel, function(feature, layer){
                 if (groupFeatures = feature.get('features')) {
-                    groupFeatures.forEach(function(feature) { features.push({ feature:feature, layer, layer }); });
+                    groupFeatures.forEach(function(featureDetail) {
+                        featureDetail.marker = feature;
+                        featureDetail.layer = layer;
+                        features.push(featureDetail);
+                    });
                 } else {
-                    features.push({ feature:feature, layer, layer });
+                    feature.layer = layer;
+                    features.push(feature);
                 }
             });
 
             return features;
         },
         popup: function (content, pixel) {
-            console.log(content,pixel, ol3.featurePopup.element);
             $('#popup table,#popup ul').remove();
             new ol3.html(ol3.featurePopup.element)
                 .append(content)
@@ -73,7 +78,7 @@ OL3.extend(function(){
         },
         popupFeature: function(feature, pixel) {
 
-            properties = feature.feature.getProperties();
+            properties = feature.getProperties();
             list = new ol3.html('<table>');
 
             for (var i in properties) {
@@ -92,6 +97,7 @@ OL3.extend(function(){
                 }
             }
 
+            ol3.layer.selectFeatures([feature]);
             ol3.featurePopup.popup(list, pixel);
         },
         listFeatures: function(features, pixel) {
@@ -102,20 +108,14 @@ OL3.extend(function(){
                 var item = new ol3.html('<li>')
                     .data('feature', features[i])
                     .on('click', function(){ ol3.featurePopup.popupFeature(new ol3.html(this).data('feature'), pixel); })
-                    .on('mousemove', function(){ ol3.featurePopup.highlightFeature(new ol3.html(this).data('feature')); })
-                    .on('mouseout', function(){ ol3.featurePopup.lowlightFeature(new ol3.html(this).data('feature')); })
-                    .append('"' + features[i].layer.get('Title') + ': ' + features[i].feature.get('id') + '"');
+                    .on('mousemove', function(){ ol3.layer.hoverStyleFeature(new ol3.html(this).data('feature')); })
+                    .on('mouseout', function(){ ol3.layer.hoverStyleFeature(new ol3.html(this).data('feature'), false); })
+                    .append('"' + features[i].layer.get('Title') + ': ' + features[i].get('id') + '"');
                 list.append(item);
-                ol3.featurePopup.lowlightFeature(features[i]);
             }
 
+            ol3.layer.selectFeatures(features);
             ol3.featurePopup.popup(list, pixel);
-        },
-        highlightFeature: function(feature) {
-            feature.feature.setStyle(feature.layer.get('hoverStyle'));
-        },
-        lowlightFeature: function(feature) {
-            feature.feature.setStyle(undefined);
         }
     };
 

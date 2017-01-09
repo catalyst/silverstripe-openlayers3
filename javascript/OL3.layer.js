@@ -78,6 +78,38 @@ OL3.extend(function(){
 
                 return ol3.style.get(styleId, size);
             };
+        },
+        hoverStyleFeature: function(feature, reverse) {
+
+            var marker = feature.marker || feature
+                style = reverse === false ? marker.get('currentStyle') : feature.layer.get('hoverStyle');
+
+            marker.setStyle(style);
+        },
+        selectStyleFeature: function(feature, reverse) {
+
+            var marker = feature.marker || feature
+                style = reverse === false ? undefined : feature.layer.get('selectStyle');
+
+            marker.set('currentStyle', style)
+            marker.setStyle(style);
+        },
+        selectedFeatures: [],
+        selectFeatures: function(features) {
+
+            // unselect previously selected features
+            for (var i = 0; i < ol3.layer.selectedFeatures.length; i++) {
+                feature = ol3.layer.selectedFeatures[i];
+                ol3.layer.selectStyleFeature(feature, false);
+            }
+
+            // select new features
+            for (var i = 0; i < features.length; i++) {
+                feature = features[i];
+                ol3.layer.selectStyleFeature(feature);
+            }
+
+            ol3.layer.selectedFeatures = features;
         }
     };
 
