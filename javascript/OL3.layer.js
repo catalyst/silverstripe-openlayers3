@@ -22,6 +22,7 @@ OL3.extend(function(){
                     factory = this.create[factoryName];
 
                 layer = factory(layerConfig);
+                layer.config = layerConfig;
                 layer.set('Title', layerConfig.Title);
                 map.addLayer(layer);
             }

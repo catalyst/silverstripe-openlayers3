@@ -76,7 +76,7 @@ OL3.extend(function(){
 
             map.getOverlayById('popup').setPosition(map.getCoordinateFromPixel([pixel[0], pixel[1]]));
         },
-        popupFeature: function(feature, pixel) {
+        renderFeature: function(feature) {
 
             properties = feature.getProperties();
             list = new ol3.html('<table>');
@@ -96,6 +96,11 @@ OL3.extend(function(){
                     );
                 }
             }
+            return list;
+        },
+        popupFeature: function(feature, pixel) {
+
+            list = ol3.featurePopup.renderFeature(feature);
 
             ol3.layer.selectFeatures([feature]);
             ol3.featurePopup.popup(list, pixel);
