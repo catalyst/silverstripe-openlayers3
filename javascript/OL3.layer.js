@@ -61,14 +61,14 @@ OL3.extend(function(){
                 });
             }
         },
-        queryFeature: function(featureId, layerConfig, callback) {
+        getFeature: function(featureTypes, featureFilter, layerConfig, callback) {
 
             var featureRequest = new ol.format.WFS().writeGetFeature({
                 srsName: layerConfig.SourceProjection,
                 featureNS: 'http://www.opengis.net/gml',
-                featureTypes: [layerConfig.CarrouselTypeName],
+                featureTypes: featureTypes,
                 outputFormat: 'text/xml; subtype=gml/3.1.1',
-                filter: new ol.format.filter.EqualTo('gid', featureId)
+                filter: featureFilter || null
             });
 
             // then post the request and add the received features to a layer
@@ -164,28 +164,10 @@ OL3.extend(function(){
                 var vectorSource = new ol.source.Vector({
                     loader: function(extent, resolution, projection) {
 
-                        var featureRequest = new ol.format.WFS().writeGetFeature({
-                            srsName: config.SourceProjection,
-                            featureNS: 'http://www.opengis.net/gml',
-                            featureTypes: config.SourceFeatureTypes.split(','),
-                            outputFormat: 'text/xml; subtype=gml/3.1.1'
-                        });
-
-                        // then post the request and add the received features to a layer
-                        fetch(config.SourceUrl, {
-                            method: 'POST',
-                            body: new XMLSerializer().serializeToString(featureRequest)
-                        }).then(function(response) {
-                            return response.text();
-                        }).then(function(wfs) {
-                            var features = new ol.format.WFS().readFeatures(
-                                wfs, {
-                                    dataProjection: config.SourceProjection,
-                                    featureProjection: ol3.config.view.Projection
-                                }
-                            );
+                        ol3.layer.getFeature(config.SourceFeatureTypes.split(','), null, config, function(features){
                             vectorSource.addFeatures(features);
                         });
+
                     },
                     projection: ol3.config.view.Projection
                 });
