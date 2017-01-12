@@ -11,7 +11,11 @@ OL3.extend(function(){
         this.selector = selector;
         this.elements = [];
 
-        if (selector instanceof _html) {
+        if (!selector) {
+
+            this.elements = [];
+
+        } else if (selector instanceof _html) {
 
             for (var i in selector) this[i] = selector[i];
 
