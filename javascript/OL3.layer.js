@@ -61,6 +61,34 @@ OL3.extend(function(){
                 });
             }
         },
+        queryFeature: function(featureId, layerConfig, callback) {
+
+            var featureRequest = new ol.format.WFS().writeGetFeature({
+                srsName: layerConfig.SourceProjection,
+                featureNS: 'http://www.opengis.net/gml',
+                featureTypes: [layerConfig.CarrouselTypeName],
+                outputFormat: 'text/xml; subtype=gml/3.1.1',
+                filter: new ol.format.filter.EqualTo('gid', featureId)
+            });
+
+            // then post the request and add the received features to a layer
+            fetch(layerConfig.SourceUrl, {
+                method: 'POST',
+                body: new XMLSerializer().serializeToString(featureRequest)
+            }).then(function(response) {
+                // console.log(response.text());
+                return response.text();
+            }).then(function(wfs) {
+                // console.log(wfs);
+                var features = new ol.format.WFS().readFeatures(
+                    wfs, {
+                        dataProjection: layerConfig.SourceProjection,
+                        featureProjection: ol3.config.view.Projection
+                    }
+                );
+                callback(features);
+            });
+        },
         StyleCallback: function(styleId, _type, _styleType) {
             return function(feature) {
                 var size;
