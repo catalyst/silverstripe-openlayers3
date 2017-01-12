@@ -13,6 +13,7 @@ class OL3Layer extends DataObject
     private static $plural_name = 'OpenLayer3 Layers';
 
     private static $db = [
+        'SortOrder' => 'Int',
         'Title' => 'Varchar',
         'Visible' => 'Boolean(1)',
         'Opacity' => 'Decimal(3,2,1)',
@@ -30,18 +31,18 @@ class OL3Layer extends DataObject
     ];
 
     private static $default_sort = [
-        'Title',
-        'ClassName',
-        'Visible',
+        'SortOrder',
     ];
 
-    private static $belongs_many_many = [
+    private static $has_one = [
         'Map' => 'OL3Map',
     ];
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
+        $fields->removeByName('SortOrder');
 
         // push the field to the end of the fieldlist and add range
         $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Opacity')->setRange(0,1,.1), 'Visible');

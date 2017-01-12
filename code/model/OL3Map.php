@@ -25,31 +25,18 @@ class OL3Map extends DataObject
         'Lon' => 'Longitude',
     ];
 
-    private static $many_many = [
+    private static $has_many = [
         'Layers' => 'OL3Layer',
     ];
-
-    private static $many_many_extraFields = [
-        'Layers' => [
-            'SortOrder' => 'Int',
-        ],
-    ];
-
-    /**
-     * overwriting the magic compontents getter in order to return an ordered version of the resulting
-     * DataList for the CMS GridField to be sortable.
-     * @return Object DataList containing Layers component
-     */
-    public function Layers() {
-        return $this->getManyManyComponents('Layers')->sort('SortOrder');
-    }
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
         if ($field = $fields->dataFieldByName('Layers')) {
-            $field->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+            $field->getConfig()
+                ->addComponent(new GridFieldSortableRows('SortOrder'))
+                ->removeComponentsByType('GridFieldAddExistingSearchButton');
         }
 
         $fields->dataFieldByName('Zoom')->setRange(0, 30);
@@ -106,6 +93,7 @@ class OL3Map extends DataObject
         Requirements::javascript('openlayers3/javascript/OL3.layersPanel.js');
         Requirements::javascript('openlayers3/javascript/OL3.interaction.js');
         Requirements::javascript('openlayers3/javascript/OL3.featurePopup.js');
+        Requirements::javascript('mysite/javascript/OL3.niwa.js');
         return $this->renderWith(__CLASS__);
     }
 }
