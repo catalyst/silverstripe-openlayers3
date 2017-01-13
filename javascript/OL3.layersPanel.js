@@ -15,13 +15,13 @@ OL3.extend(function(){
         render: function(element) {
 
             var map = ol3.cache.map,
-                element = element || new ol3.html('<div>').get(),
-                list = new ol3.html('<ul>'),
+                element = element || H('<div>').get(),
+                list = H('<ul>'),
                 panel;
 
-            new ol3.html(map.getTarget())
+            H(map.getTarget())
                 .append(
-                    new ol3.html(element)
+                    H(element)
                         .attr('id', 'panel')
                         .append(list)
                 );
@@ -29,15 +29,15 @@ OL3.extend(function(){
             map.addControl(new ol.control.Control({ element: element }));
             map.getLayers().forEach(function(layer){
 
-                var checkbox = new ol3.html('<input>').attr('type', 'checkbox').data('layer', layer),
+                var checkbox = H('<input>').attr('type', 'checkbox').data('layer', layer),
                     title = '" ' + layer.get('Title') + '"',
-                    item = new ol3.html('<li>'),
-                    itemContent = new ol3.html('<label>').append(checkbox).append(title),
+                    item = H('<li>'),
+                    itemContent = H('<label>').append(checkbox).append(title),
                     icon = ol3.layersPanel.getIconForLayer(layer);
 
                 if (icon) {
                     item
-                        .append(new ol3.html(icon)
+                        .append(H(icon)
                         .css({
                             width: ol3.layersPanel.iconSize.width + 'px',
                             height: ol3.layersPanel.iconSize.height + 'px'
@@ -49,7 +49,7 @@ OL3.extend(function(){
 
                 checkbox.on('click', function(){
 
-                    var checkbox = new ol3.html(this),
+                    var checkbox = H(this),
                         layer = checkbox.data('layer');
 
                     layer.setVisible(checkbox.prop('checked'));
@@ -85,7 +85,7 @@ OL3.extend(function(){
             if (!(image instanceof Image)) {
 
                 var vectorContext,
-                    image = new ol3.html('<canvas>')
+                    image = H('<canvas>')
                         .attr(ol3.layersPanel.iconSize)
                         .css({ position: 'absolute', 'top': 0, 'left': 0, background: 'white' })
                         .get();
@@ -96,7 +96,7 @@ OL3.extend(function(){
                 vectorContext.drawGeometry(geos[type]);
             }
 
-            return image instanceof Image ? image : new ol3.html('<img>').prop('src', image.toDataURL('image/png'));
+            return image instanceof Image ? image : H('<img>').prop('src', image.toDataURL('image/png'));
         }
     };
 });

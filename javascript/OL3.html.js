@@ -1,8 +1,4 @@
-// @requires OL3.layer.js
-
-OL3.extend(function(){
-
-    var ol3 = this;
+(function() {
 
     function _html(selector, conatiner, config) {
 
@@ -60,7 +56,7 @@ OL3.extend(function(){
     };
 
     _html.prototype.append = function(html) {
-        html = new ol3.html(html);
+        html = H(html);
         this.each(function(){
             var attachTo = this.get();
             html.each(function(){
@@ -158,6 +154,6 @@ OL3.extend(function(){
         return this;
     };
 
-    ol3.html = _html;
+    window.H = function(selector, conatiner, config) { return new _html(selector, conatiner, config); };
 
-});
+})();

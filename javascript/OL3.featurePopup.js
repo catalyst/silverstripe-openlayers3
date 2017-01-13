@@ -10,17 +10,17 @@ OL3.extend(function(){
 
             var map = ol3.cache.map,
                 config = config || {},
-                close = new ol3.html('<a>').attr('class', 'close').append('"❌"');
+                close = H('<a>').attr('class', 'close').append('"❌"');
 
-            ol3.featurePopup.element = config.element || new ol3.html('<div>').get();
+            ol3.featurePopup.element = config.element || H('<div>').get();
 
-            new ol3.html(ol3.featurePopup.element).on('mousemove', function(evt){
+            H(ol3.featurePopup.element).on('mousemove', function(evt){
                 evt.stopPropagation();
             });
 
-            new ol3.html(map.getTarget())
+            H(map.getTarget())
                 .append(
-                    new ol3.html(ol3.featurePopup.element)
+                    H(ol3.featurePopup.element)
                         .attr('id', 'popup')
                         .append(close)
                 );
@@ -45,7 +45,7 @@ OL3.extend(function(){
 
         },
         close: function() {
-            new ol3.html(ol3.featurePopup.element).css('display', 'none');
+            H(ol3.featurePopup.element).css('display', 'none');
             ol3.layer.selectFeatures([]);
         },
         getFeaturesAtPixel: function(pixel) {
@@ -70,7 +70,7 @@ OL3.extend(function(){
         },
         popup: function (content, pixel) {
             $('#popup table,#popup ul').remove();
-            new ol3.html(ol3.featurePopup.element)
+            H(ol3.featurePopup.element)
                 .append(content)
                 .css('display', 'block');
 
@@ -79,19 +79,19 @@ OL3.extend(function(){
         renderFeature: function(feature) {
 
             properties = feature.getProperties();
-            list = new ol3.html('<table>');
+            list = H('<table>');
 
             for (var i in properties) {
                 var property = properties[i];
 
                 if (typeof property === 'string') {
                     list.append(
-                        new ol3.html('<tr>')
+                        H('<tr>')
                             .append(
-                                new ol3.html('<td>').append('"' + i + '"')
+                                H('<td>').append('"' + i + '"')
                             )
                             .append(
-                                new ol3.html('<td>').append('"' + property + '"')
+                                H('<td>').append('"' + property + '"')
                             )
                     );
                 }
@@ -107,14 +107,14 @@ OL3.extend(function(){
         },
         listFeatures: function(features, pixel) {
 
-            var list = new ol3.html('<ul>');
+            var list = H('<ul>');
 
             for (var i = 0; i < features.length; i++) {
-                var item = new ol3.html('<li>')
+                var item = H('<li>')
                     .data('feature', features[i])
-                    .on('click', function(){ ol3.featurePopup.popupFeature(new ol3.html(this).data('feature'), pixel); })
-                    .on('mousemove', function(){ ol3.layer.hoverStyleFeature(new ol3.html(this).data('feature')); })
-                    .on('mouseout', function(){ ol3.layer.hoverStyleFeature(new ol3.html(this).data('feature'), false); })
+                    .on('click', function(){ ol3.featurePopup.popupFeature(H(this).data('feature'), pixel); })
+                    .on('mousemove', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature')); })
+                    .on('mouseout', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature'), false); })
                     .append('"' + features[i].layer.get('Title') + ': ' + features[i].get('id') + '"');
                 list.append(item);
             }
