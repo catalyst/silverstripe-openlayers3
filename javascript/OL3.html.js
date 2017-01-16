@@ -1,6 +1,6 @@
-(function() {
+(function(window, undefined) {
 
-    function _html(selector, conatiner, config) {
+    function _html(selector, container, config) {
 
         var matches;
 
@@ -24,15 +24,20 @@
 
         } else if (matches = selector.match(/^<([a-z][a-z0-9]*)>$/)) {
 
-            this.elements = [ document.createElement(matches[1]) ];
+            var element = document.createElement(matches[1]);
+            container && new _html(container).get().appendChild(element)
+            this.elements = [ element ];
 
         } else if(matches = selector.match(/^"([^"]*)"$/)) {
 
-            this.elements = [ document.createTextNode(matches[1]) ];
+            var element = document.createTextNode(matches[1]);
+            container && new _html(container).get().appendChild(element)
+            this.elements = [ element ];
 
         } else {
 
-            this.elements = document.querySelectorAll(selector);
+            container = (new _html(container)).get() || document;
+            this.elements = container.querySelectorAll(selector);
 
         }
 
@@ -55,14 +60,33 @@
         return this;
     };
 
-    _html.prototype.append = function(html) {
+    _html.prototype.insert = function(html, before) {
         html = H(html);
+
+        if ((before = before || null) !== true) before = H(before).get();
+
         this.each(function(){
-            var attachTo = this.get();
+            var insertedInto = this.get();
+            var beforeNode = before === true ? insertedInto.firstChild : before;
             html.each(function(){
-                attachTo.appendChild(this.get());
+                insertedInto.insertBefore(this.get(), beforeNode);
             });
         });
+
+        return this;
+    }
+
+    _html.prototype.append = function(html) {
+        return this.insert(html);
+    };
+
+    _html.prototype.prepend = function(html) {
+        return this.insert(html, true);
+    };
+
+    _html.prototype.insertBefore = function(html) {
+        var parent = H(H(html).get().parentNode);
+        return parent.insert(this, html);
 
         return this;
     };
@@ -156,4 +180,4 @@
 
     window.H = function(selector, conatiner, config) { return new _html(selector, conatiner, config); };
 
-})();
+})(this);
