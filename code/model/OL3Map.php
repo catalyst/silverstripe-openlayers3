@@ -25,6 +25,10 @@ class OL3Map extends DataObject
         'Lon' => 'Longitude',
     ];
 
+    private static $has_one = [
+        'Background' => 'OL3Layer',
+    ];
+
     private static $has_many = [
         'Layers' => 'OL3Layer',
     ];
@@ -35,8 +39,16 @@ class OL3Map extends DataObject
 
         if ($field = $fields->dataFieldByName('Layers')) {
             $field->getConfig()
-                ->addComponent(new GridFieldSortableRows('SortOrder'))
-                ->removeComponentsByType('GridFieldAddExistingSearchButton');
+                ->removeComponentsByType('GridFieldAddExistingAutocompleter')
+                ->removeComponentsByType('GridFieldDeleteAction')
+                ->addComponent(new GridFieldDeleteAction())
+                ->addComponent(new GridFieldSortableRows('SortOrder'));
+        }
+
+        if ($this->Layers()->Count()) {
+            $fields->dataFieldByname('BackgroundID')->setSource($this->Layers()->map());
+        } else {
+            $fields->removeByName('BackgroundID');
         }
 
         $fields->dataFieldByName('Zoom')->setRange(0, 30);

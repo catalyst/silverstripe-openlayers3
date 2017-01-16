@@ -28,37 +28,44 @@ OL3.extend(function(){
 
             map.addControl(new ol.control.Control({ element: element }));
             map.getLayers().forEach(function(layer){
+                var item = ol3.layersPanel.renderLayerItem(layer);
+                list.prepend(item);
+            });
+        },
+        renderLayerItem: function(layer){
 
-                var checkbox = H('<input>').attr('type', 'checkbox').data('layer', layer),
-                    title = '" ' + layer.get('Title') + '"',
-                    item = H('<li>'),
-                    itemContent = H('<label>').append(checkbox).append(title),
-                    icon = ol3.layersPanel.getIconForLayer(layer);
+            // exempt background from toggling
+            if (ol3.config.view.BackgroundID == layer.config.ID) return;
 
-                if (icon) {
-                    item
-                        .append(H(icon)
-                        .css({
-                            width: ol3.layersPanel.iconSize.width + 'px',
-                            height: ol3.layersPanel.iconSize.height + 'px'
-                        }));
-                }
-                item.append(itemContent);
+            var checkbox = H('<input>').attr('type', 'checkbox').data('layer', layer),
+                title = '" ' + layer.get('Title') + '"',
+                item = H('<li>').attr('data-layer-id', layer.config.ID),
+                itemContent = H('<label>').append(checkbox).append(title),
+                icon = ol3.layersPanel.getIconForLayer(layer);
 
-                if (layer.getVisible()) checkbox.attr('checked', 'checked');
+            if (icon) {
+                item
+                    .append(H(icon)
+                    .css({
+                        width: ol3.layersPanel.iconSize.width + 'px',
+                        height: ol3.layersPanel.iconSize.height + 'px'
+                    }));
+            }
+            item.append(itemContent);
 
-                checkbox.on('click', function(){
+            if (layer.getVisible()) checkbox.attr('checked', 'checked');
 
-                    var checkbox = H(this),
-                        layer = checkbox.data('layer');
+            checkbox.on('click', function(){
 
-                    layer.setVisible(checkbox.prop('checked'));
+                var checkbox = H(this),
+                    layer = checkbox.data('layer');
 
-                });
-
-                list.append(item);
+                layer.setVisible(checkbox.prop('checked'));
 
             });
+
+            return item;
+
         },
         getIconForLayer: function(layer) {
 
