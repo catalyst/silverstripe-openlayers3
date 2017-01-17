@@ -88,10 +88,10 @@ OL3.extend(function(){
                     list.append(
                         H('<tr>')
                             .append(
-                                H('<td>').append('"' + i + '"')
+                                H('<td>').attr('class', 'key').append('"' + i + ':"')
                             )
                             .append(
-                                H('<td>').append('"' + property + '"')
+                                H('<td>').attr('class', 'data').append('"' + property + '"')
                             )
                     );
                 }
@@ -105,17 +105,26 @@ OL3.extend(function(){
             ol3.layer.selectFeatures([feature]);
             ol3.featurePopup.popup(list, pixel);
         },
+        popupFeatureTitle: function (feature){
+            var properties = feature.getProperties(),
+                popupFeatureTitle = feature.layer.config.PopupFeatureTitle;
+
+            return popupFeatureTitle ? popupFeatureTitle.replace(/\$([a-z0-9]+)/gi, function(match, key){ return properties[key]; }) : feature.layer.config.Title + ' (' + properties.id + ')';
+        },
         listFeatures: function(features, pixel) {
 
             var list = H('<ul>');
 
+            list.append(H('<li>').append('"' + features.length + ' items selected:"').attr('class', 'header'));
+
             for (var i = 0; i < features.length; i++) {
-                var item = H('<li>')
-                    .data('feature', features[i])
-                    .on('click', function(){ ol3.featurePopup.popupFeature(H(this).data('feature'), pixel); })
-                    .on('mousemove', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature')); })
-                    .on('mouseout', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature'), false); })
-                    .append('"' + features[i].layer.get('Title') + ': ' + features[i].get('id') + '"');
+                var title = ol3.featurePopup.popupFeatureTitle(features[i]), // features[i].layer.get('Title') + ': ' + features[i].get('id')
+                    item = H('<li>')
+                        .data('feature', features[i])
+                        .on('click', function(){ ol3.featurePopup.popupFeature(H(this).data('feature'), pixel); })
+                        .on('mousemove', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature')); })
+                        .on('mouseout', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature'), false); })
+                        .append('"' + title + '"');
                 list.append(item);
             }
 
