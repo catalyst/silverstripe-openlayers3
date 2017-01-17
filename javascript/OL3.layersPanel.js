@@ -40,7 +40,7 @@ OL3.extend(function(){
             var checkbox = H('<input>').attr('type', 'checkbox').data('layer', layer),
                 title = '" ' + layer.get('Title') + '"',
                 item = H('<li>').attr('data-layer-id', layer.config.ID),
-                itemContent = H('<label>').append(checkbox).append(title),
+                itemContent = H('<label>').append(checkbox).append(H('<span>').append(title)),
                 icon = ol3.layersPanel.getIconForLayer(layer);
 
             if (icon) {
@@ -69,7 +69,7 @@ OL3.extend(function(){
         },
         getIconForLayer: function(layer) {
 
-            if (!(layer instanceof ol.layer.Vector)) return;
+            if (layer instanceof ol.layer.Tile) return H('<img>').attr('src', 'openlayers3/images/world_map25.png');
 
             var image,
                 style = layer.getStyle(),
