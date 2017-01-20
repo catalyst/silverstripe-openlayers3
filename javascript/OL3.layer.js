@@ -164,7 +164,7 @@ OL3.extend(function(){
                 var vectorSource = new ol.source.Vector({
                     loader: function(extent, resolution, projection) {
 
-                        ol3.layer.getFeature(config.SourceFeatureTypes.split(','), null, config, function(features){
+                        ol3.layer.getFeature(config.SourceFeatureTypes.split(','), config.Filter, config, function(features){
                             vectorSource.addFeatures(features);
                         });
 

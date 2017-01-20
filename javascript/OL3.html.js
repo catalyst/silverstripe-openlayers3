@@ -86,7 +86,7 @@
 
     _html.prototype.insertBefore = function(html) {
         var parent = H(H(html).get().parentNode);
-        return parent.insert(this, html);
+        parent.insert(this, html);
 
         return this;
     };

@@ -106,6 +106,7 @@ class OL3Map extends DataObject
         Requirements::javascript('openlayers3/javascript/OL3.interaction.js');
         Requirements::javascript('openlayers3/javascript/OL3.featurePopup.js');
         Requirements::javascript('mysite/javascript/OL3.niwa.js');
+        Requirements::javascript('mysite/javascript/OL3.niwa.species.js');
         return $this->renderWith(__CLASS__);
     }
 }
