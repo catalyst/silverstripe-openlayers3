@@ -10,7 +10,7 @@ OL3.extend(function(){
 
             var map = ol3.cache.map,
                 config = config || {},
-                close = H('<a>').attr('class', 'close').append('"❌"');
+                close = H('<a>').addClass('close').text('❌');
 
             ol3.featurePopup.element = config.element || H('<div>').get();
 
@@ -88,10 +88,10 @@ OL3.extend(function(){
                     list.append(
                         H('<tr>')
                             .append(
-                                H('<td>').attr('class', 'key').append('"' + i + ':"')
+                                H('<td>').addClass('key').text(i + ':')
                             )
                             .append(
-                                H('<td>').attr('class', 'data').append('"' + property + '"')
+                                H('<td>').addClass('data').text(property)
                             )
                     );
                 }
@@ -115,7 +115,7 @@ OL3.extend(function(){
 
             var list = H('<ul>');
 
-            list.append(H('<li>').append('"' + features.length + ' items selected:"').attr('class', 'header'));
+            list.append(H('<li>').text(features.length + ' items selected:').addClass('header'));
 
             for (var i = 0; i < features.length; i++) {
                 var title = ol3.featurePopup.popupFeatureTitle(features[i]), // features[i].layer.get('Title') + ': ' + features[i].get('id')
@@ -124,7 +124,7 @@ OL3.extend(function(){
                         .on('click', function(){ ol3.featurePopup.popupFeature(H(this).data('feature'), pixel); })
                         .on('mousemove', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature')); })
                         .on('mouseout', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature'), false); })
-                        .append('"' + title + '"');
+                        .text(title);
                 list.append(item);
             }
 

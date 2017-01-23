@@ -178,6 +178,52 @@
         return this;
     };
 
+    _html.prototype.text = function(t) {
+        if (typeof t === 'string') {
+            for (var i = 0; i < this.length; i++) {
+                this.get(i).innerText = t;
+            }
+            return this;
+        } else {
+            return this.length ? this.get().innerText : null;
+        }
+    };
+
+    _html.prototype.flush = function() {
+        return this.text('');
+    };
+
+    _html.prototype.hasClass = function(c) {
+        return this.length ? this.attr('class').split(/\s+/).indexOf(c) != -1 : false;
+    };
+
+    _html.prototype.addClass = function(c) {
+        cs = typeof c === 'string' ? c.split(' ') : (c.constructor == Array ? c : []);
+        for (var i = 0; i < cs.length; i++) {
+            for (var j = 0; j < this.length; j++) {
+                var val = this.get(j).getAttribute('class') || '';
+                if (val.split(/\s+/).indexOf(cs[i]) == -1) {
+                    this.get(j).setAttribute('class', (val + ' ' + cs[i]).trim());
+                }
+            }
+        }
+        return this;
+    };
+
+    _html.prototype.removeClass = function(c) {
+        cs = typeof c === 'string' ? c.split(' ') : (c.constructor == Array ? c : []);
+        for (var i = 0; i < cs.length; i++) {
+            for (var j = 0; j < this.length; j++) {
+                var vals = this.get(j).getAttribute('class').split(/\s+/) || [];
+                if (vals.indexOf(cs[i]) != -1 && vals.splice(vals.indexOf(cs[i]), 1)) {
+                    this.get(j).setAttribute('class', vals.join(' '));
+                }
+            }
+        }
+        return this;
+    };
+
+
     window.H = function(selector, conatiner, config) { return new _html(selector, conatiner, config); };
 
 })(this);
