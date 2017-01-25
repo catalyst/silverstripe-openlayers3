@@ -42,7 +42,9 @@ class OL3Layer extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        $fields->removeByName('SortOrder');
+        if (class_exists('GridFieldSortableRows')) {
+            $fields->removeByName('SortOrder');
+        }
 
         // push the field to the end of the fieldlist and add range
         $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Opacity')->setRange(0,1,.1), 'Visible');

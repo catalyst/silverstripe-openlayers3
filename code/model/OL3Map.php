@@ -41,8 +41,10 @@ class OL3Map extends DataObject
             $field->getConfig()
                 ->removeComponentsByType('GridFieldAddExistingAutocompleter')
                 ->removeComponentsByType('GridFieldDeleteAction')
-                ->addComponent(new GridFieldDeleteAction())
-                ->addComponent(new GridFieldSortableRows('SortOrder'));
+                ->addComponent(new GridFieldDeleteAction());
+            if (class_exists('GridFieldSortableRows')) {
+                $field->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+            }
         }
 
         if ($this->Layers()->Count()) {
@@ -91,22 +93,25 @@ class OL3Map extends DataObject
         return json_encode($styles);
     }
 
+    public static function requirements()
+    {
+        Requirements::css('https://openlayers.org/en/v3.19.1/css/ol.css');
+        Requirements::javascript('openlayers3/thirdparty/promise.js');
+        Requirements::javascript('openlayers3/thirdparty/fetch.js');
+        Requirements::javascript('openlayers3/thirdparty/CustomEvent.js');
+        Requirements::javascript('https://openlayers.org/en/v3.19.1/build/ol.js');
+        Requirements::javascript('openlayers3/javascript/OL3.base.js');
+        Requirements::javascript('openlayers3/javascript/OL3.html.js');
+        Requirements::javascript('openlayers3/javascript/OL3.layer.js');
+        Requirements::javascript('openlayers3/javascript/OL3.init.js');
+    }
+
     /**
      * @return String **V** of MVC for OL3Map
      */
     public function forTemplate()
     {
-        Requirements::css('https://openlayers.org/en/v3.19.1/css/ol.css');
-        Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
-        Requirements::javascript('https://openlayers.org/en/v3.19.1/build/ol.js');
-        Requirements::javascript('openlayers3/javascript/OL3.base.js');
-        Requirements::javascript('openlayers3/javascript/OL3.html.js');
-        Requirements::javascript('openlayers3/javascript/OL3.layer.js');
-        Requirements::javascript('openlayers3/javascript/OL3.layersPanel.js');
-        Requirements::javascript('openlayers3/javascript/OL3.interaction.js');
-        Requirements::javascript('openlayers3/javascript/OL3.featurePopup.js');
-        Requirements::javascript('mysite/javascript/OL3.niwa.js');
-        Requirements::javascript('mysite/javascript/OL3.niwa.species.js');
+        $this->requirements();
         return $this->renderWith(__CLASS__);
     }
 }

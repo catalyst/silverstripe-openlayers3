@@ -21,6 +21,7 @@ OL3.extend(function(){
                     factoryName = layerConfig.ClassName,
                     factory = this.create[factoryName];
 
+console.log(factoryName, factory);
                 layer = factory(layerConfig);
                 layer.config = layerConfig;
                 layer.set('Title', layerConfig.Title);
@@ -70,6 +71,8 @@ OL3.extend(function(){
                 outputFormat: 'text/xml; subtype=gml/3.1.1',
                 filter: featureFilter || null
             });
+
+            // console.log(layerConfig.SourceUrl, new XMLSerializer().serializeToString(featureRequest));
 
             // then post the request and add the received features to a layer
             fetch(layerConfig.SourceUrl, {
@@ -171,6 +174,7 @@ OL3.extend(function(){
                     },
                     projection: ol3.config.view.Projection
                 });
+
                 return vectorSource;
             },
             Group: function(config) {
