@@ -160,6 +160,18 @@ OL3.extend(function(){
             OL3OSMSource: function(config) {
                 return new ol.source.OSM();
             },
+            OL3BingSource: function(config) {
+                return new ol.source.BingMaps({
+                    key: config.Key,
+                    imagerySet: config.ImagerySet
+                });
+            },
+            OL3JsonVectorSource: function(config) {
+                return new ol.source.Vector({
+                    url: 'https://openlayers.org/en/v3.20.1/examples/data/geojson/countries.geojson',
+                    format: new ol.format.GeoJSON()
+                });
+            },
             OL3VectorSource: function(config) {
                 var vectorSource = new ol.source.Vector({
                     loader: function(extent, resolution, projection) {

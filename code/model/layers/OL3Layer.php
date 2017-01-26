@@ -104,9 +104,9 @@ class OL3Layer extends DataObject
                 $fields->addFieldToTab('Root.Source', $field->setName($name));
             }
 
-            $fields->removeByName('SourceID');
             // $fields->replaceField('SourceID', HiddenField::create('SourceID'));
         }
+        $fields->removeByName('SourceID');
 
         return $fields;
     }
