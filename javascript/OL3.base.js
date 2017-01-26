@@ -41,7 +41,7 @@ function OL3(config) {
     ol3.view = {
         create: function(config) {
 
-            var extend;
+            var extent;
 
             config = config || ol3.config.view;
 

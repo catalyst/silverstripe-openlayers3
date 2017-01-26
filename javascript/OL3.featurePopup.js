@@ -31,12 +31,13 @@ OL3.extend(function(){
 
             map.on('click', function(evt){
 
-                var features = ol3.featurePopup.getFeaturesAtPixel(evt.pixel);
+                var features = ol3.featurePopup.getFeaturesAtPixel(evt.pixel)
+                    coordinate = map.getCoordinateFromPixel([evt.pixel[0], evt.pixel[1]]);
 
                 if (features.length == 1) {
-                    ol3.featurePopup.popupFeature(features[0], evt.pixel);
+                    ol3.featurePopup.popupFeature(features[0], coordinate);
                 } else if (features.length > 1) {
-                    ol3.featurePopup.listFeatures(features, evt.pixel);
+                    ol3.featurePopup.listFeatures(features, coordinate);
                 } else {
                     ol3.featurePopup.close();
                 }
@@ -68,13 +69,13 @@ OL3.extend(function(){
 
             return features;
         },
-        popup: function (content, pixel) {
+        popup: function (content, coordinate) {
             $('#popup table,#popup ul').remove();
             H(ol3.featurePopup.element)
                 .append(content)
                 .css('display', 'block');
 
-            map.getOverlayById('popup').setPosition(map.getCoordinateFromPixel([pixel[0], pixel[1]]));
+            map.getOverlayById('popup').setPosition(coordinate);
         },
         renderFeature: function(feature) {
 
@@ -98,12 +99,12 @@ OL3.extend(function(){
             }
             return list;
         },
-        popupFeature: function(feature, pixel) {
+        popupFeature: function(feature, coordinate) {
 
             list = ol3.featurePopup.renderFeature(feature);
 
             ol3.layer.selectFeatures([feature]);
-            ol3.featurePopup.popup(list, pixel);
+            ol3.featurePopup.popup(list, coordinate);
         },
         popupFeatureTitle: function (feature){
             var properties = feature.getProperties(),
@@ -111,7 +112,7 @@ OL3.extend(function(){
 
             return popupFeatureTitle ? popupFeatureTitle.replace(/\$([a-z0-9]+)/gi, function(match, key){ return properties[key]; }) : feature.layer.config.Title + ' (' + properties.id + ')';
         },
-        listFeatures: function(features, pixel) {
+        listFeatures: function(features, coordinate) {
 
             var list = H('<ul>');
 
@@ -121,7 +122,7 @@ OL3.extend(function(){
                 var title = ol3.featurePopup.popupFeatureTitle(features[i]), // features[i].layer.get('Title') + ': ' + features[i].get('id')
                     item = H('<li>')
                         .data('feature', features[i])
-                        .on('click', function(){ ol3.featurePopup.popupFeature(H(this).data('feature'), pixel); })
+                        .on('click', function(){ ol3.featurePopup.popupFeature(H(this).data('feature'), coordinate); })
                         .on('mousemove', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature')); })
                         .on('mouseout', function(){ ol3.layer.hoverStyleFeature(H(this).data('feature'), false); })
                         .text(title);
@@ -129,7 +130,7 @@ OL3.extend(function(){
             }
 
             ol3.layer.selectFeatures(features);
-            ol3.featurePopup.popup(list, pixel);
+            ol3.featurePopup.popup(list, coordinate);
         }
     };
 
