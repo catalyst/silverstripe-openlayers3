@@ -17,7 +17,13 @@ class OL3Map extends DataObject
         'Projection' => 'Varchar',
         'Lat' => 'Decimal(12,6)',
         'Lon' => 'Decimal(12,6)',
+        'MinLat' => 'Decimal(12,6)',
+        'MinLon' => 'Decimal(12,6)',
+        'MaxLat' => 'Decimal(12,6)',
+        'MaxLon' => 'Decimal(12,6)',
         'Zoom' => 'Int',
+        'MinZoom' => 'Int',
+        'MaxZoom' => 'Int',
     ];
 
     private static $field_labels = [
@@ -31,6 +37,12 @@ class OL3Map extends DataObject
 
     private static $has_many = [
         'Layers' => 'OL3Layer',
+    ];
+
+    private static $defaults = [
+        'Zoom' => 8,
+        'MinZoom' => 0,
+        'MaxZoom' => 30,
     ];
 
     public function getCMSFields()
@@ -54,7 +66,16 @@ class OL3Map extends DataObject
         }
 
         $fields->dataFieldByName('Zoom')->setRange(0, 30);
-        $fields->dataFieldByName('Projection')->setRightTitle('Common values are "EPSG:3857" or "EPSG:4326", leave empty for server side default projection');
+        $fields->addFieldsToTab('Root.Constraints', [
+            $fields->dataFieldByName('MinZoom')->setRange(0, 30),
+            $fields->dataFieldByName('MaxZoom')->setRange(0, 30),
+            $fields->dataFieldByName('MinLat'),
+            $fields->dataFieldByName('MinLon'),
+            $fields->dataFieldByName('MaxLat'),
+            $fields->dataFieldByName('MaxLon'),
+        ]);
+
+        $fields->dataFieldByName('Projection')->setDescription('Common values are "EPSG:3857" or "EPSG:4326", leave empty for server side default projection');
 
         return $fields;
     }
@@ -113,5 +134,13 @@ class OL3Map extends DataObject
     {
         $this->requirements();
         return $this->renderWith(__CLASS__);
+    }
+
+    public function validate()
+    {
+        $result = parent::validate();
+        if ($this->MaxZoom < $this->Zoom) $result->error('MaxZoom must be greater than Zoom');
+        if ($this->MinZoom > $this->Zoom) $result->error('MinZoom must be less than Zoom');
+        return $result;
     }
 }

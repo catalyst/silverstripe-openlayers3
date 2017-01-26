@@ -40,10 +40,27 @@ function OL3(config) {
 
     ol3.view = {
         create: function(config) {
+
+            var extend;
+
             config = config || ol3.config.view;
+
+            if (config.MinLat && config.MinLon && config.MaxLat && config.MaxLon) {
+                extent = [
+                    parseFloat(config.MinLon),
+                    parseFloat(config.MinLat),
+                    parseFloat(config.MaxLon),
+                    parseFloat(config.MaxLat)
+                ];
+                extent = ol.proj.transformExtent(extent, 'EPSG:4326', config.Projection);
+            }
+
             return new ol.View({
                 projection: config.Projection,
                 center: ol.proj.fromLonLat([parseFloat(config.Lon), parseFloat(config.Lat)]),
+                extent: extent,
+                minZoom: config.MinZoom,
+                maxZoom: config.MaxZoom,
                 zoom: config.Zoom
             });
         }
