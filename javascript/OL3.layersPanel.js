@@ -73,16 +73,16 @@ OL3.extend(function(){
 
             var image,
                 style = layer.getStyle(),
-                type = layer.config.SourceType,
+                type = layer.config.Source.ClassName,
                 geos = {
-                    polygon: ol3.layersPanel.iconPolygon,
-                    line: new ol.geom.LineString([[0, ol3.layersPanel.iconSize.height], [ol3.layersPanel.iconSize.width, 0]]),
-                    point: new ol.geom.Point([ol3.layersPanel.iconSize.width / 2, ol3.layersPanel.iconSize.height / 2])
+                    OL3VectorSource: new ol.geom.LineString([[0, ol3.layersPanel.iconSize.height], [ol3.layersPanel.iconSize.width, 0]]), // line
+                    OL3VectorSource: ol3.layersPanel.iconPolygon, // polygon
+                    OL3ClusterSource: new ol.geom.Point([ol3.layersPanel.iconSize.width / 2, ol3.layersPanel.iconSize.height / 2]) // point
                 };
 
             if (typeof style == 'function') style = style();
 
-            if (type == 'point') {
+            if (type == 'OL3ClusterSource') {
                 markerimage = style.getImage().getImage();
                 if (markerimage instanceof Image) {
                     image = new Image();

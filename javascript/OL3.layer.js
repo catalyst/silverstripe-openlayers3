@@ -21,7 +21,6 @@ OL3.extend(function(){
                     factoryName = layerConfig.ClassName,
                     factory = this.create[factoryName];
 
-console.log(factoryName, factory);
                 layer = factory(layerConfig);
                 layer.config = layerConfig;
                 layer.set('Title', layerConfig.Title);
@@ -31,9 +30,9 @@ console.log(factoryName, factory);
         create: {
             OL3TileLayer: function(config) {
 
-                var factoryName = config.SourceType,
+                var factoryName = config.Source.ClassName,
                     factory = ol3.source.create[factoryName],
-                    source = factory(config);
+                    source = factory(config.Source);
 
                 return new ol.layer.Tile({
                     source: source,
@@ -43,13 +42,10 @@ console.log(factoryName, factory);
             },
             OL3VectorLayer: function(config) {
 
-                var source, style, hoverStyle, selectStyle;
-
-                if (config.SourceType == 'point') {
-                    source = ol3.source.create.Group(config);
-                } else {
-                    source = ol3.source.create.Vector(config);
-                }
+                var factoryName = config.Source.ClassName,
+                    factory = ol3.source.create[factoryName],
+                    source = factory(config.Source),
+                    style, hoverStyle, selectStyle;
 
                 return new ol.layer.Vector({
                     title: config.Title,
@@ -62,20 +58,20 @@ console.log(factoryName, factory);
                 });
             }
         },
-        getFeature: function(featureTypes, featureFilter, layerConfig, callback) {
+        getFeature: function(featureTypes, featureFilter, sourceConfig, callback) {
 
             var featureRequest = new ol.format.WFS().writeGetFeature({
-                srsName: layerConfig.SourceProjection,
+                srsName: sourceConfig.Projection,
                 featureNS: 'http://www.opengis.net/gml',
                 featureTypes: featureTypes,
                 outputFormat: 'text/xml; subtype=gml/3.1.1',
                 filter: featureFilter || null
             });
 
-            // console.log(layerConfig.SourceUrl, new XMLSerializer().serializeToString(featureRequest));
+            // console.log(sourceConfig.Url, new XMLSerializer().serializeToString(featureRequest));
 
             // then post the request and add the received features to a layer
-            fetch(layerConfig.SourceUrl, {
+            fetch(sourceConfig.Url, {
                 method: 'POST',
                 body: new XMLSerializer().serializeToString(featureRequest)
             }).then(function(response) {
@@ -85,7 +81,7 @@ console.log(factoryName, factory);
                 // console.log(wfs);
                 var features = new ol.format.WFS().readFeatures(
                     wfs, {
-                        dataProjection: layerConfig.SourceProjection,
+                        dataProjection: sourceConfig.Projection,
                         featureProjection: ol3.config.view.Projection
                     }
                 );
@@ -147,27 +143,28 @@ console.log(factoryName, factory);
 
     ol3.source = {
         create: {
-            WMS: function(config) {
+            OL3TileWMSSource: function(config) {
 
                 var params = {
-                    url: config.SourceUrl,
-                    params: { 'LAYERS': config.SourceLayers }
+                    url: config.Url,
+                    params: { 'LAYERS': config.Layers }
                 };
 
-                if (config.SourceProjection) {
-                    params.projection = config.SourceProjection;
+                if (config.Projection) {
+                    params.projection = config.Projection;
                 }
+
                 return new ol.source.TileWMS(params);
 
             },
-            OSM: function(config) {
+            OL3OSMSource: function(config) {
                 return new ol.source.OSM();
             },
-            Vector: function(config) {
+            OL3VectorSource: function(config) {
                 var vectorSource = new ol.source.Vector({
                     loader: function(extent, resolution, projection) {
 
-                        ol3.layer.getFeature(config.SourceFeatureTypes.split(','), config.Filter, config, function(features){
+                        ol3.layer.getFeature(config.FeatureTypes.split(','), config.Filter || null, config, function(features){
                             vectorSource.addFeatures(features);
                         });
 
@@ -177,10 +174,10 @@ console.log(factoryName, factory);
 
                 return vectorSource;
             },
-            Group: function(config) {
+            OL3ClusterSource: function(config) {
                 return new ol.source.Cluster({
-                    distance: 40,
-                    source: ol3.source.create.Vector(config)
+                    distance: config.Distance,
+                    source: ol3.source.create.OL3VectorSource(config)
                 });
             }
         }

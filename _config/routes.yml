@@ -4,4 +4,4 @@ After: 'rootroutes'
 ---
 Director:
   rules:
-    'OL3Proxy': 'OL3Proxy_Controller'
+    'OL3Proxy//$Action/$ID/$OtherID': 'OL3Proxy_Controller'
