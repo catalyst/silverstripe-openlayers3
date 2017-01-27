@@ -1,23 +1,36 @@
 <?php
 
 /**
- * Representation of an Openlayers3 ol.layer.Vector
+ * File told conatain OL3VectorLayer
+ *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
+ */
+
+/**
+ * Representation of an Openlayers3 ol.layer.Vector
  * @link http://openlayers.org/en/v3.19.1/apidoc/ol.layer.Vector.html
  */
 
 class OL3VectorLayer extends OL3Layer
 {
-    private static $singular_name = 'OpenLayer3 Vector Layer';
-    private static $plural_name = 'OpenLayer3 Vector Layers';
-
-    private static $has_one = [
+    /**
+     * Used by the ORM to establish class relations
+     * Map of has_one components
+     * Keys are component names, values are DataObject class names
+     * @var array
+     */
+     private static $has_one = [
         'DefaultStyle' => 'Ol3StyleStyle',
         'HoverStyle' => 'Ol3StyleStyle',
         'SelectStyle' => 'Ol3StyleStyle',
     ];
 
+    /**
+     * Map of available sources that work this class of layer.
+     * Keys are class names, values are nice names
+     * @var array
+     */
     private static $available_source_types = [
         'OL3ClusterSource' => 'Cluster Source',
         'OL3VectorSource' => 'GML Vector Source',

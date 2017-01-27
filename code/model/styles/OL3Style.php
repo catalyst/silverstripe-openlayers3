@@ -1,17 +1,19 @@
 <?php
 
 /**
- * A base class for ol.styles
- * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * File told conatain OL3Style
+ *
  * @package openlayers3
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ */
+
+/**
+ * A base class for ol.styles
  * @link http://openlayers.org/en/v3.19.1/apidoc/ol.style.html
  */
 
 class OL3Style extends DataObject
 {
-    private static $singular_name = 'Style';
-    private static $plural_name = 'Styles';
-
     /**
      * Some style classes have styles as their components. The nesting is non recursive and it's depth is finite.
      * This structure represents the structure of Openlayers3 ol.style structure.

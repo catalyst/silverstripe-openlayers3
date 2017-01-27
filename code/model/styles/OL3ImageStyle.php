@@ -1,17 +1,24 @@
 <?php
 
 /**
- * A base class for ol.style.images
- * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ * File told conatain OL3ImageStyle
+ *
  * @package openlayers3
+ * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
+ */
+
+/**
+ * A base class for ol.style.images
  * @link http://openlayers.org/en/v3.19.1/apidoc/ol.style.Image.html
  */
 
 class OL3ImageStyle extends OL3Style
 {
-    private static $singular_name = 'Image Style';
-    private static $plural_name = 'Image Styles';
-
+    /**
+     * Getter for FieldList that is used for CRUD forms for this class
+     * Conatins field customisations, mainly choosing the concrete class for this record
+     * @return FieldList
+     */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();

@@ -1,17 +1,36 @@
 <?php
 
 /**
- * Representation of an Openlayers3 ol.View
+ * File told conatain OL3Map
+ *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
+ */
+
+/**
+ * Representation of an Openlayers3 ol.View
  * @link http://openlayers.org/en/v3.19.1/apidoc/ol.View.html
  */
 
 class OL3Map extends DataObject
 {
+    /**
+     * Nice singular name for this class to be used in the CMS
+     * @var string
+     */
     private static $singular_name = 'Map';
+
+    /**
+     * Nice plural name for this class to be used in the CMS
+     * @var string
+     */
     private static $plural_name = 'Maps';
 
+    /**
+     * Map of class properties to persist in the database
+     * Keys are property names, values are data types
+     * @var string[] DB types
+     */
     private static $db = [
         'Title' => 'Varchar',
         'Projection' => 'Varchar',
@@ -26,25 +45,52 @@ class OL3Map extends DataObject
         'MaxZoom' => 'Int',
     ];
 
+    /**
+     * Specifying Field names where they differ from their property names
+     * Keys are property names, values are nice field names
+     * @var string[] nice column names
+     */
     private static $field_labels = [
         'Lat' => 'Latitude',
         'Lon' => 'Longitude',
     ];
 
+    /**
+     * Used by the ORM to establish class relations
+     * Map of has_one components
+     * Keys are component names, values are DataObject class names
+     * @var string[] has_one component classes
+     */
     private static $has_one = [
         'Background' => 'OL3Layer',
     ];
 
+    /**
+     * Used by the ORM to establish class relations
+     * Map of has_one components
+     * Keys are component names, values are DataObject class names
+     * @var string[] has_one component classes
+     */
     private static $has_many = [
         'Layers' => 'OL3Layer',
     ];
 
+    /**
+     * Map of default values to hydrate instances with on creation
+     * Keys are property names, values are scalar values
+     * @var mixed[]
+     */
     private static $defaults = [
         'Zoom' => 8,
         'MinZoom' => 0,
         'MaxZoom' => 30,
     ];
 
+    /**
+     * Getter for FieldList that is used for CRUD forms for this class
+     * Conatins field customisations, fine tuning GridFields, removing redundant fields and adding desriptions
+     * @return FieldList
+     */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
