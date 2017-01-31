@@ -21,7 +21,7 @@ class OL3TileLayer extends OL3Layer
      */
     private static $available_source_types = [
         'OL3OSMSource' => 'OSM Source',
-        'OL3BingSource' => 'Bing Source',
+        'OL3BingMapsSource' => 'Bing Source',
         'OL3TileWMSSource' => 'WMS Tile Source',
     ];
 }

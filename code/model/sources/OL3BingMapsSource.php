@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3BingSource
+ * File told conatain OL3BingMapsSource
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -12,7 +12,7 @@
  * @link https://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html
  */
 
-class OL3BingSource extends OL3Source
+class OL3BingMapsSource extends OL3Source
 {
     /**
      * Bing Maps API key. Get yours at http://www.bingmapsportal.com/. Required

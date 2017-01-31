@@ -160,7 +160,7 @@ OL3.extend(function(){
             OL3OSMSource: function(config) {
                 return new ol.source.OSM();
             },
-            OL3BingSource: function(config) {
+            OL3BingMapsSource: function(config) {
                 return new ol.source.BingMaps({
                     key: config.Key,
                     imagerySet: config.ImagerySet
