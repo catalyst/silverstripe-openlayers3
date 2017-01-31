@@ -33,8 +33,7 @@ class OL3VectorLayer extends OL3Layer
      */
     private static $available_source_types = [
         'OL3ClusterSource' => 'Cluster Source',
-        'OL3VectorSource' => 'GML Vector Source',
-        'OL3JsonVectorSource' => 'JSON Vector Source',
+        'OL3VectorSource' => 'Vector Source',
     ];
 
     /**

@@ -56,22 +56,48 @@ OL3.extend(function(){
                     hoverStyle: ol3.layer.StyleCallback(config.HoverStyleID, config.SourceType, 'hover'),
                     selectStyle: ol3.layer.StyleCallback(config.SelectStyleID, config.SourceType, 'select')
                 });
+            },
+            OL3ImageLayer: function(config) {
+
+                var factoryName = config.Source.ClassName,
+                    factory = ol3.source.create[factoryName],
+                    source = factory(config.Source);
+
+                return new ol.layer.Image({
+                    source: source,
+                    opacity: parseFloat(config.Opacity),
+                    visible: config.Visible == '1'
+                });
             }
         },
-        getFeature: function(featureTypes, featureFilter, sourceConfig, callback) {
+        getFeature: function(options) {
 
-            var featureRequest = new ol.format.WFS().writeGetFeature({
-                srsName: sourceConfig.Projection,
-                featureNS: 'http://www.opengis.net/gml',
-                featureTypes: featureTypes,
-                outputFormat: 'text/xml; subtype=gml/3.1.1',
-                filter: featureFilter || null
-            });
+            var sourceProjection = options.config.Projection,
+                outputProjection = options.config.outputProjection || ol3.config.view.Projection,
+                featureRequest,
+                readOptions = {},
+                getOptions = {
+                    featureNS: 'http://www.opengis.net/gml',
+                    featureTypes: options.featureTypes || options.config.featureTypes,
+                    outputFormat: 'text/xml; subtype=gml/3.1.1',
+                    filter: options.filter || null
+                };
+
+            if (sourceProjection) {
+                getOptions.srsName = sourceProjection;
+                readOptions.dataProjection = sourceProjection;
+            }
+
+            if (outputProjection) {
+                readOptions.featureProjection = outputProjection;
+            }
+
+            featureRequest = new ol.format.WFS().writeGetFeature(getOptions);
 
             // console.log(sourceConfig.Url, new XMLSerializer().serializeToString(featureRequest));
 
             // then post the request and add the received features to a layer
-            fetch(sourceConfig.Url, {
+            fetch(options.config.Url, {
                 method: 'POST',
                 body: new XMLSerializer().serializeToString(featureRequest)
             }).then(function(response) {
@@ -80,12 +106,9 @@ OL3.extend(function(){
             }).then(function(wfs) {
                 // console.log(wfs);
                 var features = new ol.format.WFS().readFeatures(
-                    wfs, {
-                        dataProjection: sourceConfig.Projection,
-                        featureProjection: ol3.config.view.Projection
-                    }
+                    wfs, readOptions
                 );
-                callback(features);
+                options.callback(features);
             });
         },
         StyleCallback: function(styleId, _type, _styleType) {
@@ -166,31 +189,78 @@ OL3.extend(function(){
                     imagerySet: config.ImagerySet
                 });
             },
-            OL3JsonVectorSource: function(config) {
-                return new ol.source.Vector({
-                    url: 'https://openlayers.org/en/v3.20.1/examples/data/geojson/countries.geojson',
-                    format: new ol.format.GeoJSON()
-                });
-            },
-            OL3VectorSource: function(config) {
-                var vectorSource = new ol.source.Vector({
-                    loader: function(extent, resolution, projection) {
+            OL3ImageStaticSource: function(config) {
 
-                        ol3.layer.getFeature(config.FeatureTypes.split(','), config.Filter || null, config, function(features){
-                            vectorSource.addFeatures(features);
-                        });
+                var extent = [ parseFloat(config.Lon), parseFloat(config.Lat), parseFloat(config.Lon), parseFloat(config.Lat) ];
 
-                    },
+                if (config.Projection) extent = ol.proj.transformExtent(extent, config.Projection, ol3.config.view.Projection);
+
+                extent[0] -= parseFloat(config.Scale);
+                extent[1] -= parseFloat(config.Scale);
+                extent[2] += parseFloat(config.Scale);
+                extent[3] += parseFloat(config.Scale);
+
+                return new ol.source.ImageStatic({
+                    url: config.Url,
+                    imageExtent: extent,
+                    imageSize: [1384, 849],
                     projection: ol3.config.view.Projection
                 });
-
-                return vectorSource;
             },
             OL3ClusterSource: function(config) {
                 return new ol.source.Cluster({
                     distance: config.Distance,
                     source: ol3.source.create.OL3VectorSource(config)
                 });
+            },
+            OL3VectorSource: function(config) {
+console.log(config);
+                var optionFactoryName = config.Format,
+                    optionFactory = ol3.source.OL3VectorSourceOptions[optionFactoryName],
+                    options = optionFactory(config),
+                    source = new ol.source.Vector(options);
+
+                // set a backreference to the source for ajax loader callbacks
+                config.source = source;
+
+                return source;
+            }
+        },
+        OL3VectorSourceOptions: {
+            GML: function(config){
+                return {
+
+                    loader: function(extent, resolution, projection) {
+                        ol3.layer.getFeature({
+                            config: config,
+                            callback: function(features){
+                                config.source.addFeatures(features);
+                            },
+                            filter: config.Filter || null,
+                            featureTypes: config.FeatureTypes.split(','),
+                            outputProjection: projection.getCode()
+                        });
+
+                    },
+                    projection: ol3.config.view.Projection
+                }
+            },
+            GeoJSON: function(config){
+                return {
+                    url: function(extent,resolution,projection) {
+                        var replacements = {
+                            extent: extent.join(','),
+                            resolution: resolution,
+                            projection: projection.getCode()
+                        };
+
+                        return config.Url.replace(/\$([a-z0-9]+)/gi, function(match, key){
+                            return replacements[key];
+                        });
+                    },
+                    format: new ol.format.GeoJSON({ defaultDataProjection: config.Projection || 'EPSG:4326' }),
+                    strategy: ol.loadingstrategy.bbox
+                };
             }
         }
     }

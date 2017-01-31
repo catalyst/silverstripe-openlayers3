@@ -20,6 +20,7 @@ class OL3VectorSource extends OL3Source
      * @var array
      */
     private static $db = [
+        'Format' => "Enum('GeoJSON, GML','GeoJSON')",
         'Url' => 'Varchar(255)',
         'FeatureTypes' => 'Varchar',
         'Projection' => 'Varchar',
@@ -34,10 +35,16 @@ class OL3VectorSource extends OL3Source
     {
         $fields = parent::getCMSFields();
 
-        $fields->dataFieldByName('Url')
-            ->setDescription('Prefix with "/OL3Proxy/dorequest?u=" to work around same-origin issues');
-        $fields->dataFieldByName('FeatureTypes')
-            ->setDescription('Comma separated list of names to identify layers on the server side');
+        if ($this->Format == 'GML') {
+            $fields->dataFieldByName('Url')
+                ->setDescription('Prefix with "/OL3Proxy/dorequest?u=" to work around same-origin issues');
+            $fields->dataFieldByName('FeatureTypes')
+                ->setDescription('Comma separated list of names to identify layers on the server side');
+        } else {
+            $fields->dataFieldByName('Url')
+                ->setDescription('Use $extent, $resolution and $projection as placeholders');
+            $fields->removeByName('FeatureTypes');
+        }
         $fields->dataFieldByName('Projection')
             ->setDescription('Common values are "EPSG:3857" or "EPSG:4326", leave empty for server side default projection');
 
