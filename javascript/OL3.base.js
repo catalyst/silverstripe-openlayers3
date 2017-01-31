@@ -45,7 +45,12 @@ function OL3(config) {
 
             config = config || ol3.config.view;
 
-            if (config.MinLat && config.MinLon && config.MaxLat && config.MaxLon) {
+            if (
+                parseFloat(config.MinLon) &&
+                parseFloat(config.MinLon) &&
+                parseFloat(config.MaxLat) &&
+                parseFloat(config.MaxLon)
+            ) {
                 extent = [
                     parseFloat(config.MinLon),
                     parseFloat(config.MinLat),
@@ -59,8 +64,8 @@ function OL3(config) {
                 projection: config.Projection,
                 center: ol.proj.fromLonLat([parseFloat(config.Lon), parseFloat(config.Lat)]),
                 extent: extent,
-                minZoom: config.MinZoom,
-                maxZoom: config.MaxZoom,
+                minZoom: parseInt(config.MinZoom) || undefined,
+                maxZoom: parseInt(config.MaxZoom) || undefined,
                 zoom: config.Zoom
             });
         }
