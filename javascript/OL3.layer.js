@@ -214,7 +214,7 @@ OL3.extend(function(){
                 });
             },
             OL3VectorSource: function(config) {
-console.log(config);
+
                 var optionFactoryName = config.Format,
                     optionFactory = ol3.source.OL3VectorSourceOptions[optionFactoryName],
                     options = optionFactory(config),

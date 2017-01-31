@@ -37,6 +37,22 @@ class OL3VectorLayer extends OL3Layer
     ];
 
     /**
+     * Getter for FieldList that is used for CRUD forms for this class
+     * Conatins field customisations, mainly to move style dropdowns to a separate tab
+     * @return FieldList
+     */
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+        $fields->addFieldsToTab('Root.Styles', [
+            $fields->dataFieldByName('DefaultStyleID'),
+            $fields->dataFieldByName('HoverStyleID'),
+            $fields->dataFieldByName('SelectStyleID'),
+        ]);
+        return $fields;
+    }
+
+    /**
      * Method to collect styles
      * @param &$styles Array to which the styles get added
      * @return void

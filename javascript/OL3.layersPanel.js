@@ -86,7 +86,7 @@ OL3.extend(function(){
                 markerimage = style.getImage().getImage();
                 if (markerimage instanceof Image) {
                     image = new Image();
-                    markerimage.addEventListener('load', function() { console.log(image, this.src); image.src = this.src; });
+                    markerimage.addEventListener('load', function() { image.src = this.src; });
                 }
             }
             if (!(image instanceof Image)) {
