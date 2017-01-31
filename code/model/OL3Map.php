@@ -166,7 +166,7 @@ class OL3Map extends DataObject
         Requirements::javascript('openlayers3/thirdparty/promise.js');
         Requirements::javascript('openlayers3/thirdparty/fetch.js');
         Requirements::javascript('openlayers3/thirdparty/CustomEvent.js');
-        Requirements::javascript('https://openlayers.org/en/v3.19.1/build/ol.js');
+        Requirements::javascript('openlayers3/thirdparty/ol.js');
         Requirements::javascript('openlayers3/javascript/OL3.base.js');
         Requirements::javascript('openlayers3/javascript/OL3.html.js');
         Requirements::javascript('openlayers3/javascript/OL3.layer.js');
