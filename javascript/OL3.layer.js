@@ -180,6 +180,20 @@ OL3.extend(function(){
                 return new ol.source.TileWMS(params);
 
             },
+            OL3ImageWMSSource: function(config) {
+
+                var params = {
+                    url: config.Url,
+                    params: { 'LAYERS': config.Layers }
+                };
+
+                if (config.Projection) {
+                    params.projection = config.Projection;
+                }
+
+                return new ol.source.ImageWMS(params);
+
+            },
             OL3OSMSource: function(config) {
                 return new ol.source.OSM();
             },

@@ -9,7 +9,7 @@
 
 /**
  * A wrapper for ol.source.ImageStatic
- * @link https://openlayers.org/en/latest/apidoc/ol.source.TileWMS.html
+ * @link https://openlayers.org/en/latest/apidoc/ol.source.ImageStatic.html
  */
 
 class OL3ImageStaticSource extends OL3Source

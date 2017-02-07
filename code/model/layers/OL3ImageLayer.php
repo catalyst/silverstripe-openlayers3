@@ -21,5 +21,6 @@ class OL3ImageLayer extends OL3Layer
      */
     private static $available_source_types = [
         'OL3ImageStaticSource' => 'Static Image Source',
+        'OL3ImageWMSSource' => 'WMS Image Source',
     ];
 }
