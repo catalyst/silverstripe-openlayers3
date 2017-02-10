@@ -1,7 +1,0 @@
----
-Name: openlayers3routes
-After: 'rootroutes'
----
-Director:
-  rules:
-    'OL3Proxy//$Action/$ID/$OtherID': 'OL3Proxy_Controller'

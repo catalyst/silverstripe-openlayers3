@@ -12,8 +12,6 @@ class OL3ImageWMSSource extends OL3Source
    {
        $fields = parent::getCMSFields();
 
-       $fields->dataFieldByName('Url')
-           ->setDescription('Prefix with "/OL3Proxy/dorequest?u=" to work around same-origin issues');
        $fields->dataFieldByName('Layers')
            ->setDescription('Comma separated list of names to identify layers on the server side');
        $fields->dataFieldByName('Projection')
