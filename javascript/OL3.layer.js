@@ -236,7 +236,7 @@ OL3.extend(function(){
 
                 // set a backreference to the source for ajax loader callbacks
                 config.source = source;
-console.log(options.strategy,source);
+
                 return source;
             }
         },
