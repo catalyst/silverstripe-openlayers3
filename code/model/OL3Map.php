@@ -162,7 +162,7 @@ class OL3Map extends DataObject
 
     public static function requirements()
     {
-        Requirements::css('https://openlayers.org/en/v3.19.1/css/ol.css');
+        Requirements::css('openlayers3/thirdparty/ol.css');
         Requirements::javascript('openlayers3/thirdparty/promise.js');
         Requirements::javascript('openlayers3/thirdparty/fetch.js');
         Requirements::javascript('openlayers3/thirdparty/CustomEvent.js');
