@@ -236,7 +236,7 @@ OL3.extend(function(){
 
                 // set a backreference to the source for ajax loader callbacks
                 config.source = source;
-
+console.log(options.strategy,source);
                 return source;
             }
         },
@@ -261,9 +261,13 @@ OL3.extend(function(){
             },
             GeoJSON: function(config){
                 return {
-                    url: function(extent,resolution,projection) {
+                    url: function(mapExtent,resolution,projection) {
+
+                        // translate map extent to layer extent
+                        var layerExtent = ol.proj.transformExtent(mapExtent, projection.getCode(), config.Projection || 'EPSG:4326');
+
                         var replacements = {
-                            extent: extent.join(','),
+                            extent: layerExtent.join(','),
                             resolution: resolution,
                             projection: projection.getCode()
                         };
