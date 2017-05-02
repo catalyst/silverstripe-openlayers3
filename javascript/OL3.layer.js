@@ -68,6 +68,29 @@ OL3.extend(function(){
                     opacity: parseFloat(config.Opacity),
                     visible: config.Visible == '1'
                 });
+            },
+            OL3GroupLayer: function(config) {
+
+                var layers = [];
+
+                for (var i = 0; i < config.layers.length; i++) {
+
+                    var layer,
+                        layerConfig = config.layers[i],
+                        factoryName = layerConfig.ClassName,
+                        factory = ol3.layer.create[factoryName];
+
+                    layer = factory(layerConfig);
+                    layer.config = layerConfig;
+                    layer.set('Title', layerConfig.Title);
+                    layers.push(layer);
+                }
+
+                return new ol.layer.Group({
+                    layers: layers,
+                    opacity: parseFloat(config.Opacity),
+                    visible: config.Visible == '1'
+                });
             }
         },
         getFeature: function(options) {
