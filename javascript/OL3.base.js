@@ -135,8 +135,8 @@ function OL3(config) {
                 if (parseInt(config.InnerRadius) === 0) {
                     shape.radius = config.OuterRadius;
                 } else {
-                    shape.radius1 = config.InnerRadius;
-                    shape.radius2 = config.OuterRadius;
+                    shape.radius1 = config.OuterRadius;
+                    shape.radius2 = config.InnerRadius;
                 }
                 return new ol.style.RegularShape(shape);
             },

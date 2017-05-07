@@ -69,7 +69,7 @@ OL3.extend(function(){
         },
         getIconForLayer: function(layer) {
 
-            if (layer instanceof ol.layer.Tile) return H('<img>').attr('src', 'openlayers3/images/world_map25.png');
+            if (!(layer instanceof ol.layer.Vector)) return H('<img>').attr('src', 'openlayers3/images/world_map25.png');
 
             var image,
                 style = layer.getStyle(),
@@ -83,27 +83,17 @@ OL3.extend(function(){
             if (typeof style == 'function') style = style();
 
             if (type == 'OL3ClusterSource') {
-                markerimage = style.getImage().getImage();
+                var markerimage = style.getImage().getImage();
                 if (markerimage instanceof Image) {
                     image = new Image();
                     markerimage.addEventListener('load', function() { image.src = this.src; });
+                } else if (markerimage.nodeName.toLowerCase() === 'canvas') {
+                    image = new Image();
+                    image.src = markerimage.toDataURL('image/png');
                 }
             }
-            if (!(image instanceof Image)) {
 
-                var vectorContext,
-                    image = H('<canvas>')
-                        .attr(ol3.layersPanel.iconSize)
-                        .css({ position: 'absolute', 'top': 0, 'left': 0, background: 'white' })
-                        .get();
-
-                vectorContext = ol.render.toContext(image.getContext('2d'), {size: [ol3.layersPanel.iconSize.width, ol3.layersPanel.iconSize.height]});
-
-                vectorContext.setStyle(style);
-                vectorContext.drawGeometry(geos[type]);
-            }
-
-            return image instanceof Image ? image : H('<img>').prop('src', image.toDataURL('image/png'));
+            return image;
         }
     };
 });
