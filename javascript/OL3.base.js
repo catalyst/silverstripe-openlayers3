@@ -107,7 +107,7 @@ function OL3(config) {
             OL3StrokeStyle: function(config, size) {
                 return new ol.style.Stroke({
                     color: config.Color,
-                    width: config.Width
+                    width: parseInt(config.Width)
                 });
             },
             OL3TextStyle: function(config, size) {
@@ -120,31 +120,31 @@ function OL3(config) {
             },
             OL3CircleStyle: function(config, size) {
                 return new ol.style.Circle({
-                    radius: config.Radius,
+                    radius: parseInt(config.Radius),
                     fill: ol3.style.get(config.FillID, size),
                     stroke: ol3.style.get(config.StrokeID, size)
                 });
             },
             OL3RegularShapeStyle: function(config, size) {
                 var shape = {
-                    points: config.Points,
-                    angle: (config.Angle / 180) * Math.PI,
+                    points: parseInt(config.Points),
+                    angle: (parseInt(config.Angle) / 180) * Math.PI,
                     fill: ol3.style.get(config.FillID, size),
                     stroke: ol3.style.get(config.StrokeID, size)
                 };
                 if (parseInt(config.InnerRadius) === 0) {
-                    shape.radius = config.OuterRadius;
+                    shape.radius = parseInt(config.OuterRadius);
                 } else {
-                    shape.radius1 = config.OuterRadius;
-                    shape.radius2 = config.InnerRadius;
+                    shape.radius1 = parseInt(config.OuterRadius);
+                    shape.radius2 = parseInt(config.InnerRadius);
                 }
                 return new ol.style.RegularShape(shape);
             },
             OL3IconStyle: function(config, size) {
                 return new ol.style.Icon({
                     src: config.IconSRC,
-                    scale: config.Scale,
-                    opacity: config.Opacity
+                    scale: parseFloat(config.Scale),
+                    opacity: parseFloat(config.Opacity)
                 });
             }
         }
