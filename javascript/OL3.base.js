@@ -34,10 +34,12 @@ function OL3(config) {
         element = element || constructorElement;
         var e = H(element);
         ol3.cache.font = e.css('font-style') + ' ' + e.css('font-weight') + ' ' + e.css('font-size') + ' "' + e.css('font-family').split(' ').join('","') + '"';
-        return ol3.cache.map = new ol.Map({
+        var map = ol3.cache.map = new ol.Map({
             target: element,
             view: ol3.view.create()
         });
+        H(element).data('map', map);
+        return map;
     };
 
     ol3.view = {
