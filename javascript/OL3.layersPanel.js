@@ -91,6 +91,20 @@ OL3.extend(function(){
                     image = new Image();
                     image.src = markerimage.toDataURL('image/png');
                 }
+            } else if (type == 'OL3VectorSource') {
+                var vectorContext,
+                    canvas = H('<canvas>')
+                        .attr(ol3.layersPanel.iconSize)
+                        .css({ position: 'absolute', 'top': 0, 'left': 0, background: 'white' })
+                        .get();
+
+                vectorContext = ol.render.toContext(canvas.getContext('2d'), {size: [ol3.layersPanel.iconSize.width, ol3.layersPanel.iconSize.height]});
+
+                vectorContext.setStyle(style);
+                vectorContext.drawGeometry(geos[type]);
+
+                image = new Image();
+                image.src = canvas.toDataURL('image/png');
             }
 
             return image;
