@@ -126,7 +126,8 @@ OL3.extend(function(){
             // then post the request and add the received features to a layer
             fetch(options.config.Url, {
                 method: 'POST',
-                body: new XMLSerializer().serializeToString(featureRequest)
+                body: new XMLSerializer().serializeToString(featureRequest),
+                'credentials': 'same-origin'
             }).then(function(response) {
                 // console.log(response.text());
                 return response.text();
