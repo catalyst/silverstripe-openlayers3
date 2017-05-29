@@ -115,10 +115,6 @@ OL3.extend(function(){
                 readOptions.featureProjection = outputProjection;
             }
 
-            if (options.bbox) {
-                getOptions.bbox = options.bbox;
-            }
-
             featureRequest = new ol.format.WFS().writeGetFeature(getOptions);
 
             // console.log(sourceConfig.Url, new XMLSerializer().serializeToString(featureRequest));
@@ -274,14 +270,11 @@ OL3.extend(function(){
 
                     loader: function(extent, resolution, projection) {
 
-                        var layerExtent = ol.proj.transformExtent(mapExtent, projection.getCode(), config.Projection || 'EPSG:4326');
-
                         ol3.layer.getFeature({
                             config: config,
                             callback: function(features){
                                 config.source.addFeatures(features);
                             },
-                            bbox: layerExtent.join(','),
                             filter: config.Filter || null,
                             featureTypes: config.FeatureTypes.split(','),
                             outputProjection: projection.getCode()
