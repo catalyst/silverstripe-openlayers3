@@ -223,7 +223,13 @@
         return this;
     };
 
-
     window.H = function(selector, conatiner, config) { return new _html(selector, conatiner, config); };
+
+    window.H.appendQueryToUrl = function(url, params) {
+        var parts = url.split('?');
+        var query = new URLSearchParams(parts[1] || '');
+        for (var i in params) query.set(i, params[i]);
+        return parts[0] + '?' + query.toString();
+    }
 
 })(this);
