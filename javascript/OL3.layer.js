@@ -289,7 +289,8 @@ OL3.extend(function(){
                     url: function(mapExtent,resolution,projection) {
 
                         // translate map extent to layer extent
-                        var layerExtent = ol.proj.transformExtent(mapExtent, projection.getCode(), config.Projection || 'EPSG:4326');
+                        // GeoJSON uses EPSG:4326, that is why it is hardcoded here
+                        var layerExtent = ol.proj.transformExtent(mapExtent, projection.getCode(), 'EPSG:4326');
 
                         var replacements = {
                             extent: layerExtent.join(','),
@@ -301,7 +302,7 @@ OL3.extend(function(){
                             return replacements[key];
                         });
                     },
-                    format: new ol.format.GeoJSON({ defaultDataProjection: config.Projection || 'EPSG:4326' }),
+                    format: new ol.format.GeoJSON({ defaultDataProjection: 'EPSG:4326' }),
                     strategy: ol.loadingstrategy.bbox
                 };
             }
