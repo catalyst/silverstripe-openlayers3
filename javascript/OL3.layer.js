@@ -194,7 +194,7 @@ OL3.extend(function(){
 
                 var params = {
                     url: config.Url,
-                    params: { 'LAYERS': config.Layers }
+                    params: { 'LAYERS': config.Layers, 'VERSION': '1.1.1' }
                 };
 
                 if (config.Projection) {
@@ -208,7 +208,7 @@ OL3.extend(function(){
 
                 var params = {
                     url: config.Url,
-                    params: { 'LAYERS': config.Layers }
+                    params: { 'LAYERS': config.Layers, 'VERSION': '1.1.1' }
                 };
 
                 if (config.Projection) {

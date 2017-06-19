@@ -82,7 +82,7 @@ class OL3Map extends DataObject
      */
     private static $defaults = [
         'Zoom' => 8,
-        'MinZoom' => 0,
+        'MinZoom' => 1,
         'MaxZoom' => 30,
     ];
 

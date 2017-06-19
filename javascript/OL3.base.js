@@ -38,6 +38,7 @@ function OL3(config) {
             target: element,
             view: ol3.view.create()
         });
+        map.addControl(new ol.control.ScaleLine());
         H(element).data('map', map);
         return map;
     };

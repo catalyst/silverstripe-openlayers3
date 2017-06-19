@@ -91,6 +91,13 @@
         return this;
     };
 
+    _html.prototype.remove = function() {
+        this.each(function(){
+            var element = this.get();
+            element.parentNode.removeChild(element);
+        });
+    }
+
     _html.prototype.attr = function(key, val) {
 
         if (typeof key === 'object') {
@@ -214,7 +221,8 @@
         cs = typeof c === 'string' ? c.split(' ') : (c.constructor == Array ? c : []);
         for (var i = 0; i < cs.length; i++) {
             for (var j = 0; j < this.length; j++) {
-                var vals = this.get(j).getAttribute('class').split(/\s+/) || [];
+                var cssClass = this.get(j).getAttribute('class') || '';
+                var vals = cssClass.split(/\s+/) || [];
                 if (vals.indexOf(cs[i]) != -1 && vals.splice(vals.indexOf(cs[i]), 1)) {
                     this.get(j).setAttribute('class', vals.join(' '));
                 }

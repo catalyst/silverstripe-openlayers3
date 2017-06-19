@@ -10,6 +10,7 @@ OL3.extend(function(){
             ol3.layersPanel.render(config ? config.element : undefined);
 
         },
+        tabbed: false,
         iconSize: { width: 25, height: 25 },
         iconPolygon: new ol.geom.Polygon([[[8, 3], [22, 1], [15, 12], [24, 24], [4, 24], [1, 13], [8, 3]]]),
         render: function(element) {
