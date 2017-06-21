@@ -11,14 +11,14 @@ This module is a wrapper for the OpenLayers 3 javascript library to be used in t
 ## Installation
 
 Installation can be done either by composer or by manually downloading the
-release from Gitlab.
+release from Github.
 
 After installation, make sure you rebuild your database through `dev/build`.
 
 ## Links ##
 
  * [Documentation](docs/en/index.md)
- * [OpenLayers 3 website](https://openlayers.org/)
+ * [OpenLayers 3 API Docs](http://openlayers.org/en/v3.19.1/apidoc/)
  * [OpenLayers 3 on GitHub](https://github.com/openlayers/ol3)
 
 ## Features
@@ -31,10 +31,6 @@ This module is a work in progress and only supports a subset of the many feature
  * Tile layers
  * Vector layers
  * WFS sources in XML format for vector layers
-
-### Missing Features
-
- * WFS sources in Json format
 
 ### Extending the module
 

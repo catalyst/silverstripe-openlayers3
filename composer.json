@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe/openlayers3",
+	"name": "catalyst/silverstripe-openlayers3",
 	"type": "silverstripe-module",
 	"description": "Catalyst's Openlayer3 for the Silverstripe framework",
 	"keywords": ["silverstripe", "openlayers3"],

@@ -61,12 +61,15 @@ OL3.extend(function(){
                 var checkbox = H(this),
                     layer = checkbox.data('layer');
 
-                layer.setVisible(checkbox.prop('checked'));
+                ol3.layersPanel.toggleLayerVisibility(layer, checkbox.prop('checked'));
 
             });
 
             return item;
 
+        },
+        toggleLayerVisibility: function(layer, show) {
+            layer.setVisible(show);
         },
         getIconForLayer: function(layer) {
 
