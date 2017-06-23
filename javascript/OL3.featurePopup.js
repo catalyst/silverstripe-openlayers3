@@ -55,6 +55,9 @@ OL3.extend(function(){
                 features = [];
 
             map.forEachFeatureAtPixel(pixel, function(feature, layer){
+
+                // if (typeof feature.layer !== 'undefined') return;
+
                 if (groupFeatures = feature.get('features')) {
                     groupFeatures.forEach(function(featureDetail) {
                         featureDetail.marker = feature;

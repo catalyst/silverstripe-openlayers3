@@ -7,31 +7,19 @@ OL3.extend(function(){
     var ol3 = this;
 
     ol3.interaction = {
+        handler: function(evt) {
+            ol3.interaction.refire(evt, evt.pixel);
+        },
         init: function() {
 
-            var map = ol3.cache.map;
-
-            if (!map) {
-                console.error('please render map before initialising layers.');
-                return;
-            }
-
-            map.on(
-                [
-                    'click',
-                    'dblClick',
-                    'singleclick',
-                    'pointermove'
-                ],
-                function(evt) {
-                    ol3.interaction.refire(evt, evt.pixel);
-                }
-            );
+            this.bind();
 
             // attach click and move listeners to all vector layers
             ol3.cache.map.getLayers().forEach(function(layer){
 
                 if (layer instanceof ol.layer.Vector) {
+
+                    if (!layer) return;
 
                     layer.addEventListener('moveInFeature', function(e) {
 
@@ -47,6 +35,32 @@ OL3.extend(function(){
                 }
             });
 
+        },
+        bind: function(){
+            var map = ol3.cache.map;
+
+            map.on(
+                [
+                    'click',
+                    'dblClick',
+                    'singleclick',
+                    'pointermove'
+                ],
+                this.handler
+            );
+        },
+        unbind: function(){
+            var map = ol3.cache.map;
+
+            map.un(
+                [
+                    'click',
+                    'dblClick',
+                    'singleclick',
+                    'pointermove'
+                ],
+                this.handler
+            );
         },
         previouslyHovered: [],
         refire: function(evt, pixel) {
@@ -108,7 +122,7 @@ OL3.extend(function(){
 
             var evt = new CustomEvent(type, { detail: payload });
 
-            target.dispatchEvent(evt);
+            if (target) target.dispatchEvent(evt);
 
         }
     };
