@@ -71,6 +71,8 @@ OL3.extend(function(){
 
             map.forEachFeatureAtPixel(pixel, function(feature, layer) {
 
+                if (!layer) return;
+
                 feature.layer = layer;
 
                 // mock up moveIn event

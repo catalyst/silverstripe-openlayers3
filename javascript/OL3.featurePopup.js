@@ -34,7 +34,7 @@ OL3.extend(function(){
                 var features = ol3.featurePopup.getFeaturesAtPixel(evt.pixel)
                     coordinate = map.getCoordinateFromPixel([evt.pixel[0], evt.pixel[1]]);
 
-                if (features.length == 1) {
+                if (features.length == 1 && features[0].layer) {
                     ol3.featurePopup.popupFeature(features[0], coordinate);
                 } else if (features.length > 1) {
                     ol3.featurePopup.listFeatures(features, coordinate);
@@ -56,7 +56,7 @@ OL3.extend(function(){
 
             map.forEachFeatureAtPixel(pixel, function(feature, layer){
 
-                // if (typeof feature.layer !== 'undefined') return;
+                if (typeof feature.layer !== 'undefined' && !layer) return;
 
                 if (groupFeatures = feature.get('features')) {
                     groupFeatures.forEach(function(featureDetail) {
@@ -122,6 +122,7 @@ OL3.extend(function(){
             list.append(H('<li>').text(features.length + ' items selected:').addClass('header'));
 
             for (var i = 0; i < features.length; i++) {
+                if (!features[i].layer) return;
                 var title = ol3.featurePopup.popupFeatureTitle(features[i]), // features[i].layer.get('Title') + ': ' + features[i].get('id')
                     item = H('<li>')
                         .data('feature', features[i])
