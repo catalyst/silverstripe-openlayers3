@@ -52,7 +52,7 @@ class OL3CircleStyle extends OL3ImageStyle
     {
         $fields = parent::getCMSFields();
 
-        $fields->dataFieldByName('Radius')->setRange(1,100);
+        $fields->dataFieldByName('Radius')->setRange(1, 100);
 
         return $fields;
     }

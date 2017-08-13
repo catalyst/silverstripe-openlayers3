@@ -37,4 +37,3 @@ class ColorFieldTest extends SapphireTest
         $this->assertFalse($field->validate($validator));
     }
 }
-

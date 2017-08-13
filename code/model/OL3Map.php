@@ -185,8 +185,12 @@ class OL3Map extends DataObject
     public function validate()
     {
         $result = parent::validate();
-        if ($this->MaxZoom < $this->Zoom) $result->error('MaxZoom must be greater than Zoom');
-        if ($this->MinZoom > $this->Zoom) $result->error('MinZoom must be less than Zoom');
+        if ($this->MaxZoom < $this->Zoom) {
+            $result->error('MaxZoom must be greater than Zoom');
+        }
+        if ($this->MinZoom > $this->Zoom) {
+            $result->error('MinZoom must be less than Zoom');
+        }
         return $result;
     }
 }

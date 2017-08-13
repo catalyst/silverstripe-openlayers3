@@ -61,7 +61,7 @@ class OL3VectorLayer extends OL3Layer
      */
     public function getStyles(&$styles)
     {
-        foreach(['DefaultStyle', 'HoverStyle', 'SelectStyle'] as $style) {
+        foreach (['DefaultStyle', 'HoverStyle', 'SelectStyle'] as $style) {
             if ($curr = $this->$style()) {
                 $curr->getStyles($styles);
             }

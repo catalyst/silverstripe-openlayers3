@@ -113,7 +113,7 @@ class OL3Layer extends DataObject
         }
 
         // push the field to the end of the fieldlist and add range
-        $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Opacity')->setRange(0,1,.1), 'Visible');
+        $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Opacity')->setRange(0, 1, .1), 'Visible');
 
         // add a class selector field on creation
         {
@@ -136,12 +136,12 @@ class OL3Layer extends DataObject
 
         // edit $this->Source() in-line
         if ($sourceTypes = $this->config()->get('available_source_types')) {
-
             $source = $this->Source();
 
             $fields->addFieldToTab('Root.Source', DropdownField::create('Source_ClassName', 'Source Type', $sourceTypes, $source->ClassName));
 
-            if ($dataFields = $source->getCMSFields()->dataFields()) foreach ($dataFields as $fieldName => $field) {
+            if ($dataFields = $source->getCMSFields()->dataFields()) {
+                foreach ($dataFields as $fieldName => $field) {
 
                 // use componentName_fieldName syntax to avoid field name conflicts
                 $name = 'Source_' . $field->getName();
@@ -158,7 +158,8 @@ class OL3Layer extends DataObject
                     }
                 }
 
-                $fields->addFieldToTab('Root.Source', $field->setName($name));
+                    $fields->addFieldToTab('Root.Source', $field->setName($name));
+                }
             }
 
             // $fields->replaceField('SourceID', HiddenField::create('SourceID'));

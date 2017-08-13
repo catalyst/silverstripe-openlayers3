@@ -45,7 +45,9 @@ class RangeExtension extends Extension
      */
     public function setMin($min)
     {
-        if (is_numeric($min)) $this->range['min'] = $min;
+        if (is_numeric($min)) {
+            $this->range['min'] = $min;
+        }
         return $this->owner;
     }
 
@@ -56,7 +58,9 @@ class RangeExtension extends Extension
      */
     public function setMax($max)
     {
-        if (is_numeric($max)) $this->range['max'] = $max;
+        if (is_numeric($max)) {
+            $this->range['max'] = $max;
+        }
         return $this->owner;
     }
 
@@ -67,7 +71,9 @@ class RangeExtension extends Extension
      */
     public function setStep($step)
     {
-        if (is_numeric($step)) $this->range['step'] = $step;
+        if (is_numeric($step)) {
+            $this->range['step'] = $step;
+        }
         return $this->owner;
     }
 
@@ -78,7 +84,9 @@ class RangeExtension extends Extension
      */
     public function setUnit($unit)
     {
-        if ($unit !== null) $this->range['data-unit'] = $unit;
+        if ($unit !== null) {
+            $this->range['data-unit'] = $unit;
+        }
         return $this->owner;
     }
 
@@ -91,7 +99,9 @@ class RangeExtension extends Extension
     {
         if (is_numeric($this->range['min']) && is_numeric($this->range['max'])) {
             $this->owner->setAttribute('type', 'range')->addExtraClass('range');
-            foreach ($this->range as $key => $val) $this->owner->setAttribute($key, $val);
+            foreach ($this->range as $key => $val) {
+                $this->owner->setAttribute($key, $val);
+            }
             Requirements::javascript('openlayers3/javascript/StyleFields.js');
             Requirements::css('openlayers3/css/StyleFields.css');
         }

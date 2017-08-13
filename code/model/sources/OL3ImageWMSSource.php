@@ -8,15 +8,15 @@ class OL3ImageWMSSource extends OL3Source
        'Projection' => 'Varchar',
    ];
 
-   public function getCMSFields()
-   {
-       $fields = parent::getCMSFields();
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
 
-       $fields->dataFieldByName('Layers')
+        $fields->dataFieldByName('Layers')
            ->setDescription('Comma separated list of names to identify layers on the server side');
-       $fields->dataFieldByName('Projection')
+        $fields->dataFieldByName('Projection')
            ->setDescription('Common values are "EPSG:3857" or "EPSG:4326", leave empty for server side default projection');
 
-       return $fields;
-   }
+        return $fields;
+    }
 }

@@ -26,7 +26,7 @@ class OL3MapTest extends SapphireTest
          'OL3Map',
      ];
 
-	/**
+    /**
      * @var string
      */
     // protected static $fixture_file = 'fixtures/OL3MapTest.yml';

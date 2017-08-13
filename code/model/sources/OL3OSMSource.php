@@ -12,4 +12,6 @@
  * @link https://openlayers.org/en/latest/apidoc/ol.source.OSM.html
  */
 
-class OL3OSMSource extends OL3Source {}
+class OL3OSMSource extends OL3Source
+{
+}

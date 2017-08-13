@@ -26,7 +26,7 @@ class OL3LayerTest extends SapphireTest
          'OL3Layer',
      ];
 
-	/**
+    /**
      * @var string
      */
     // protected static $fixture_file = 'fixtures/OL3LayerTest.yml';

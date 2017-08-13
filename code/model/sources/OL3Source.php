@@ -12,4 +12,6 @@
  * @link https://openlayers.org/en/latest/apidoc/ol.source.html
  */
 
-class OL3Source extends DataObject {}
+class OL3Source extends DataObject
+{
+}

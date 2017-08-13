@@ -26,7 +26,7 @@ class OL3StyleTest extends SapphireTest
          'OL3Style',
      ];
 
-	/**
+    /**
      * @var string
      */
     // protected static $fixture_file = 'fixtures/OL3StyleTest.yml';

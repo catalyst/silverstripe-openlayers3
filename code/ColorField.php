@@ -15,42 +15,43 @@ class ColorField extends TextField
 {
     /**
      * Data format to be used in PHP and JS as a PCRE compatible regex.
-     * 
+     *
      * @var string
      */
     private static $regex = '^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d+)\s*\)$';
 
     /**
      * Make sure the color value matches the format
-	 * @param Validator $validator
-	 * @return bool
-	 */
-    public function validate($validator) {
-		if(!$this->value && !$validator->fieldIsRequired($this->name)) {
-			return true;
-		}
+     * @param Validator $validator
+     * @return bool
+     */
+    public function validate($validator)
+    {
+        if (!$this->value && !$validator->fieldIsRequired($this->name)) {
+            return true;
+        }
 
-		if(preg_match('/' . $this->config()->get('regex') . '/', $this->value)) {
-		    return true;
-		}
+        if (preg_match('/' . $this->config()->get('regex') . '/', $this->value)) {
+            return true;
+        }
 
-		$validator->validationError(
-			$this->name,
-			_t(
-				'ColorField.VALIDATION', "'{value}' is not a valid color, only RGBa colors can be accepted for this field",
-				array('value' => $this->value)
-			),
-			"validation"
-		);
-		
-		return false;
-	}
+        $validator->validationError(
+            $this->name,
+            _t(
+                'ColorField.VALIDATION', "'{value}' is not a valid color, only RGBa colors can be accepted for this field",
+                array('value' => $this->value)
+            ),
+            "validation"
+        );
+        
+        return false;
+    }
 
     /**
-	 * Overrides FormField::Field() to add RefEx and requirements
-	 * @param array $properties
-	 * @return string
-	 */
+     * Overrides FormField::Field() to add RefEx and requirements
+     * @param array $properties
+     * @return string
+     */
     public function Field($properties = array())
     {
         Requirements::javascript('openlayers/javascript/StyleFields.js');

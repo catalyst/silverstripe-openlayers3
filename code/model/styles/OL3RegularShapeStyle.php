@@ -58,10 +58,10 @@ class OL3RegularShapeStyle extends OL3ImageStyle
     {
         $fields = parent::getCMSFields();
 
-        $fields->dataFieldByName('InnerRadius')->setRange(0,100)->setDescription('Inner Radius of a star, set to 0 for polygon');
-        $fields->dataFieldByName('OuterRadius')->setRange(1,100)->setDescription('Outer Radius of a star');
-        $fields->dataFieldByName('Points')->setRange(3,8);
-        $fields->dataFieldByName('Angle')->setRange(0,360);
+        $fields->dataFieldByName('InnerRadius')->setRange(0, 100)->setDescription('Inner Radius of a star, set to 0 for polygon');
+        $fields->dataFieldByName('OuterRadius')->setRange(1, 100)->setDescription('Outer Radius of a star');
+        $fields->dataFieldByName('Points')->setRange(3, 8);
+        $fields->dataFieldByName('Angle')->setRange(0, 360);
 
         return $fields;
     }

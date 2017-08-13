@@ -44,7 +44,7 @@ class OL3StrokeStyle extends OL3Style
         $fields = parent::getCMSFields();
 
         $fields->replaceField('Color', ColorField::create('Color'));
-        $fields->dataFieldByName('Width')->setRange(1,5,1,'px');
+        $fields->dataFieldByName('Width')->setRange(1, 5, 1, 'px');
 
         return $fields;
     }

@@ -32,13 +32,17 @@ class OL3Style extends DataObject
         foreach ($this->config()->get('has_one') ?: [] as $componentName => $className) {
 
             // only process styles
-            if (!is_a($className, 'OL3Style', true)) continue;
+            if (!is_a($className, 'OL3Style', true)) {
+                continue;
+            }
 
             // add a header field for each child style node
             $fields->addFieldToTab('Root.Main', HeaderField::create($componentName));
 
             // get child style node instance or create one if necessary
-            if ($this->has_one($componentName)) $component = $this->$componentName() ?: Object::create($className);
+            if ($this->has_one($componentName)) {
+                $component = $this->$componentName() ?: Object::create($className);
+            }
 
             // collect all fields of the instance and add them to CMSFields
             foreach ($component->getCMSFields()->dataFields() as $fieldName => $field) {
@@ -89,13 +93,15 @@ class OL3Style extends DataObject
 
             // loop over style components
             $components = $this->config()->get('has_one');
-            if ($components) foreach($components as $componentName => $componentClass) {
-                if (is_a($componentClass, 'OL3Style', true) && $curr = $this->$componentName()) {
-                    // traverse deeper into the nested style structure
+            if ($components) {
+                foreach ($components as $componentName => $componentClass) {
+                    if (is_a($componentClass, 'OL3Style', true) && $curr = $this->$componentName()) {
+                        // traverse deeper into the nested style structure
                     $curr->getStyles($styles);
-                } else if (is_a($componentClass, 'File', true) && $curr = $this->$componentName()) {
-                    // add Filename for file components
+                    } elseif (is_a($componentClass, 'File', true) && $curr = $this->$componentName()) {
+                        // add Filename for file components
                     $styles[$this->ID][$componentName . 'SRC'] = $curr->Filename;
+                    }
                 }
             }
         }
