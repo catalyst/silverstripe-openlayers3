@@ -2,13 +2,15 @@
 
 language: php
 php:
- - 5.3
+ - 5.4
+ - 5.5
+ - 5.6
 
 sudo: false
 
 env:
- - DB=MYSQL CORE_RELEASE=3.1
- - DB=PGSQL CORE_RELEASE=3.1
+ - DB=MYSQL CORE_RELEASE=3.6
+ - DB=PGSQL CORE_RELEASE=3.6
 
 before_script:
  - git clone git://github.com/silverstripe-labs/silverstripe-travis-support.git ~/travis-support
