@@ -14,8 +14,9 @@
 class ColorField extends TextField
 {
     /**
-     * Data format to be used in php and js
-     * @var string Perl style RegEx
+     * Data format to be used in PHP and JS as a PCRE compatible regex.
+     * 
+     * @var string
      */
     private static $regex = '^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d+)\s*\)$';
 
@@ -29,7 +30,9 @@ class ColorField extends TextField
 			return true;
 		}
 
-		if(preg_match('/' . $this->config()->get('regex') . '/', $this->value)) return true;
+		if(preg_match('/' . $this->config()->get('regex') . '/', $this->value)) {
+		    return true;
+		}
 
 		$validator->validationError(
 			$this->name,
@@ -39,6 +42,7 @@ class ColorField extends TextField
 			),
 			"validation"
 		);
+		
 		return false;
 	}
 
@@ -52,6 +56,7 @@ class ColorField extends TextField
         Requirements::javascript('openlayers/javascript/StyleFields.js');
         Requirements::css('openlayers/css/StyleFields.css');
         $this->setAttribute('pattern', $this->config()->get('regex'));
+        
         return parent::Field($properties);
     }
 }
