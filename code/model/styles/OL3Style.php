@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3Style
+ * File containa the OL3Style class.
  *
  * @package openlayers3
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
@@ -15,14 +15,16 @@
 class OL3Style extends DataObject
 {
     /**
-     * Some style classes have styles as their components. The nesting is non recursive and it's depth is finite.
-     * This structure represents the structure of Openlayers3 ol.style structure.
+     * Some style classes have styles as their components. The nesting is non recursive
+     * and its depth is finite. This structure represents the structure of Openlayers3 
+     * ol.style structure.
      *
-     * Since most styles contain little data and there are so many of them, editing each individual style in it's own
-     * form would be tedious. So style nodes pull all fields from their child nodes into CMSFields which results
-     * in a flat form structure
+     * Since most styles contain little data and there are so many of them, editing
+     * each individual style in it's own form would be tedious. So style nodes pull
+     * all fields from their child nodes into CMSFields which results in a flat
+     * form structure.
      *
-     * @return Object FieldList
+     * @return FieldList
      */
     public function getCMSFields()
     {
@@ -40,7 +42,7 @@ class OL3Style extends DataObject
             $fields->addFieldToTab('Root.Main', HeaderField::create($componentName));
 
             // get child style node instance or create one if necessary
-            if ($this->has_one($componentName)) {
+            if ($this->hasOneComponent($componentName)) {
                 $component = $this->$componentName() ?: Object::create($className);
             }
 
@@ -75,11 +77,12 @@ class OL3Style extends DataObject
     }
 
     /**
-     * Method to collect styles
-     * Each style adds itself to the provided $style array reference, it's ID being the $style arrays key
-     * and it's protected record property array the value. If the style has style components itself, the
-     * calls getStyles on them too.
-     * @param &$styles Array to which the styles get added
+     * Method to collect styles.
+     * Each style adds itself to the provided $style array reference, it's ID being
+     * the $style arrays key and its protected record property array the value.
+     * If the style has style components itself, this calls getStyles on them too.
+     * 
+     * @param array $styles The styles to which the styles get added
      * @return void
      * @see OL3Style::getCMSFields()
      * @see OL3Map::JsonStyles()
@@ -97,10 +100,10 @@ class OL3Style extends DataObject
                 foreach ($components as $componentName => $componentClass) {
                     if (is_a($componentClass, 'OL3Style', true) && $curr = $this->$componentName()) {
                         // traverse deeper into the nested style structure
-                    $curr->getStyles($styles);
+                        $curr->getStyles($styles);
                     } elseif (is_a($componentClass, 'File', true) && $curr = $this->$componentName()) {
                         // add Filename for file components
-                    $styles[$this->ID][$componentName . 'SRC'] = $curr->Filename;
+                        $styles[$this->ID][$componentName . 'SRC'] = $curr->Filename;
                     }
                 }
             }
@@ -109,6 +112,7 @@ class OL3Style extends DataObject
 
     /**
      * Make sure that the CMSFields vales get written to the styles components.
+     * 
      * @return void
      * @see OL3Style::getCMSFields()
      */

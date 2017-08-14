@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3BingMapsSource
+ * File contains the OL3BingMapsSource class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -15,14 +15,16 @@
 class OL3BingMapsSource extends OL3Source
 {
     /**
-     * Bing Maps API key. Get yours at http://www.bingmapsportal.com/. Required
-     * var String
+     * Bing Maps API key. Get yours at http://www.bingmapsportal.com/. Required.
+     * 
+     * var string
      */
     private static $bing_api_key;
 
     /**
      * Map of class properties to persist in the database
-     * Keys are property names, values are data types
+     * Keys are property names, values are data types.
+     * 
      * @var array
      */
     private static $db = [
@@ -32,9 +34,10 @@ class OL3BingMapsSource extends OL3Source
     /**
      * Getter for the persistent properties.
      * This implementation adds the bing api key
-     * Used in OL3Map::JsonLayers() to export the layer structure to the template
+     * Used in OL3Map::JsonLayers() to export the layer structure to the template.
+     * 
      * @see OL3Map::JsonLayers()
-     * @return Array
+     * @return array
      */
     public function toMap()
     {

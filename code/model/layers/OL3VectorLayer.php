@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3VectorLayer
+ * File contains the OL3VectorLayer class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3

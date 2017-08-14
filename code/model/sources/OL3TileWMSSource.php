@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3TileWMSSource
+ * File contains the OL3TileWMSSource class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3

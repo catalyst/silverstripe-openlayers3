@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3CircleStyle
+ * File contains the OL3CircleStyle class.
  *
  * @package openlayers3
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
@@ -15,8 +15,9 @@
 class OL3CircleStyle extends OL3ImageStyle
 {
     /**
-     * Map of class properties to persist in the database
-     * Keys are property names, values are data types
+     * Map of class properties to persist in the database.
+     * Keys are property names, values are data types.
+     * 
      * @var string[] DB types
      */
     private static $db = [
@@ -24,9 +25,10 @@ class OL3CircleStyle extends OL3ImageStyle
     ];
 
     /**
-     * Used by the ORM to establish class relations
-     * Map of has_one components
-     * Keys are component names, values are DataObject class names
+     * Used by the ORM to establish class relations.
+     * Map of has_one components.
+     * Keys are component names, values are DataObject class names.
+     * 
      * @var string[] has_one component classes
      */
     private static $has_one = [
@@ -35,8 +37,9 @@ class OL3CircleStyle extends OL3ImageStyle
     ];
 
     /**
-     * Map of default values to hydrate instances with on creation
-     * Keys are property names, values are scalar values
+     * Map of default values to hydrate instances with on creation.
+     * Keys are property names, values are scalar values.
+     * 
      * @var mixed[]
      */
     private static $defaults = [
@@ -44,8 +47,9 @@ class OL3CircleStyle extends OL3ImageStyle
     ];
 
     /**
-     * Getter for FieldList that is used for CRUD forms for this class
-     * Conatins field customisations, mainly transforming NumericFields to range sliders
+     * Getter for FieldList that is used for CRUD forms for this class.
+     * Conatins field customisations, mainly transforming NumericFields to range sliders.
+     * 
      * @return FieldList
      */
     public function getCMSFields()

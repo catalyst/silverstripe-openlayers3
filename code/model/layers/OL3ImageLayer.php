@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3ImageLayer
+ * File contains the OL3ImageLayer class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3ImageStaticSource
+ * File contains the OL3ImageStaticSource class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -16,7 +16,8 @@ class OL3ImageStaticSource extends OL3Source
 {
     /**
      * Map of class properties to persist in the database
-     * Keys are property names, values are data types
+     * Keys are property names, values are data types.
+     * 
      * @var array
      */
      private static $db = [
@@ -29,7 +30,8 @@ class OL3ImageStaticSource extends OL3Source
 
     /**
      * Getter for FieldList that is used for CRUD forms for this class
-     * Conatins field customisations, adds FormField::$description
+     * Conatins field customisations, adds FormField::$description.
+     * 
      * @return FieldList
      */
     public function getCMSFields()

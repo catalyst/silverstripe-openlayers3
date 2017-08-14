@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain RangeExtension
+ * File contains the RangeExtension class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -9,13 +9,14 @@
 
 /**
  * An extension to NumericField to display a HTML5 range slider
-**/
+ */
 
 class RangeExtension extends Extension
 {
     /**
-     * Default attributes for the range control
-     * @var mixed
+     * Default attributes for the range control.
+     * 
+     * @var array
      */
     protected $range = [
         'min' => null,
@@ -25,8 +26,9 @@ class RangeExtension extends Extension
     ];
 
     /**
-     * Convenience setter for all attributes of the range control
-     * This is what switches out the controls
+     * Convenience setter for all attributes of the range control.
+     * This is what switches out the controls.
+     * 
      * @param int $min the mininum that can be set on the field
      * @param int $max the maxinum that can be set on the field
      * @param int $step (optional) the incement, default is 1
@@ -39,7 +41,8 @@ class RangeExtension extends Extension
     }
 
     /**
-     * Setter for $this->min
+     * Setter for $this->min.
+     * 
      * @param int $min the mininum that can be set on the field
      * @return NumericField $this for chaining
      */
@@ -52,7 +55,8 @@ class RangeExtension extends Extension
     }
 
     /**
-     * Setter for $this->max
+     * Setter for $this->max.
+     * 
      * @param int $max the maxinum that can be set on the field
      * @return NumericField $this for chaining
      */
@@ -65,7 +69,8 @@ class RangeExtension extends Extension
     }
 
     /**
-     * Setter for $this->step
+     * Setter for $this->step.
+     * 
      * @param int $step the incement
      * @return NumericField $this for chaining
      */
@@ -78,7 +83,8 @@ class RangeExtension extends Extension
     }
 
     /**
-     * Setter for $this->unit
+     * Setter for $this->unit.
+     * 
      * @param int $unit the unit to be displayed after the value
      * @return NumericField $this for chaining
      */
@@ -91,7 +97,8 @@ class RangeExtension extends Extension
     }
 
     /**
-     * Hook to replace the control
+     * Hook to replace the control.
+     * 
      * @param int $unit the unit to be displayed after the value
      * @return void
      */

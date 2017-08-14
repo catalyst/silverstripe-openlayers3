@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3ClusterSource
+ * File contains the OL3ClusterSource class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -16,7 +16,8 @@ class OL3ClusterSource extends OL3VectorSource
 {
     /**
      * Map of class properties to persist in the database
-     * Keys are property names, values are data types
+     * Keys are property names, values are data types.
+     * 
      * @var array
      */
     private static $db = [

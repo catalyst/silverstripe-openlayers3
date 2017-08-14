@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3TileLayer
+ * File contains the OL3TileLayer class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3OSMSource
+ * File contains the OL3OSMSource class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3

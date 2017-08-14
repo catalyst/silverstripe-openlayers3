@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3Layer
+ * File contains the OL3Layer class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -161,8 +161,6 @@ class OL3Layer extends DataObject
                     $fields->addFieldToTab('Root.Source', $field->setName($name));
                 }
             }
-
-            // $fields->replaceField('SourceID', HiddenField::create('SourceID'));
         }
         $fields->removeByName('SourceID');
 

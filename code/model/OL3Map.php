@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3Map
+ * File contains the OL3Map class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -15,21 +15,24 @@
 class OL3Map extends DataObject
 {
     /**
-     * Nice singular name for this class to be used in the CMS
+     * Nice singular name for this class to be used in the CMS.
+     * 
      * @var string
      */
     private static $singular_name = 'Map';
 
     /**
-     * Nice plural name for this class to be used in the CMS
+     * Nice plural name for this class to be used in the CMS.
+     * 
      * @var string
      */
     private static $plural_name = 'Maps';
 
     /**
-     * Map of class properties to persist in the database
-     * Keys are property names, values are data types
-     * @var string[] DB types
+     * Map of class properties to persist in the database.
+     * Keys are property names, values are data types.
+     * 
+     * @var array
      */
     private static $db = [
         'Title' => 'Varchar',
@@ -46,9 +49,10 @@ class OL3Map extends DataObject
     ];
 
     /**
-     * Specifying Field names where they differ from their property names
-     * Keys are property names, values are nice field names
-     * @var string[] nice column names
+     * Specifying Field names where they differ from their property names.
+     * Keys are property names, values are nice field names.
+     * 
+     * @var array Nice column names
      */
     private static $field_labels = [
         'Lat' => 'Latitude',
@@ -56,29 +60,32 @@ class OL3Map extends DataObject
     ];
 
     /**
-     * Used by the ORM to establish class relations
-     * Map of has_one components
-     * Keys are component names, values are DataObject class names
-     * @var string[] has_one component classes
+     * Used by the ORM to establish class relations.
+     * Map of has_one components.
+     * Keys are component names, values are DataObject class names.
+     * 
+     * @var array has_one component classes
      */
     private static $has_one = [
         'Background' => 'OL3Layer',
     ];
 
     /**
-     * Used by the ORM to establish class relations
-     * Map of has_one components
-     * Keys are component names, values are DataObject class names
-     * @var string[] has_one component classes
+     * Used by the ORM to establish class relations.
+     * Map of has_one components.
+     * Keys are component names, values are DataObject class names.
+     * 
+     * @var array has_many component classes
      */
     private static $has_many = [
         'Layers' => 'OL3Layer',
     ];
 
     /**
-     * Map of default values to hydrate instances with on creation
-     * Keys are property names, values are scalar values
-     * @var mixed[]
+     * Map of default values to hydrate instances with on creation.
+     * Keys are property names, values are scalar values.
+     * 
+     * @var array
      */
     private static $defaults = [
         'Zoom' => 8,
@@ -87,8 +94,10 @@ class OL3Map extends DataObject
     ];
 
     /**
-     * Getter for FieldList that is used for CRUD forms for this class
-     * Conatins field customisations, fine tuning GridFields, removing redundant fields and adding desriptions
+     * Getter for FieldList that is used for CRUD forms for this class.
+     * Conatins field customisations, fine tuning GridFields, removing redundant
+     * fields and adding desriptions.
+     * 
      * @return FieldList
      */
     public function getCMSFields()
@@ -128,7 +137,8 @@ class OL3Map extends DataObject
 
     /**
      * Getter for the template to retrive the ol.View config object
-     * @return String Json representation $this
+     * 
+     * @return string JSON representation of $this->toMap()
      */
     public function JsonView()
     {
@@ -137,7 +147,7 @@ class OL3Map extends DataObject
 
     /**
      * Getter for the template to retrive the ol.layer config for all layers to be displayed
-     * @return String Json representation $this->Layers()
+     * @return string JSON representation of $this->Layers()
      */
     public function JsonLayers()
     {
@@ -145,8 +155,10 @@ class OL3Map extends DataObject
     }
 
     /**
-     * Getter for the template to retrive the ol.style config for all styles attached to all layers of the map
-     * @return String Json array of all styles necessary to display all vecor layers
+     * Getter for the template to retrive the ol.style config for all styles attached
+     * to all layers of the map.
+     * 
+     * @return string A JSON array of all styles necessary to display all vector layers.
      * @see OL3Style::getStyles()
      */
     public function JsonStyles()
@@ -174,7 +186,7 @@ class OL3Map extends DataObject
     }
 
     /**
-     * @return String **V** of MVC for OL3Map
+     * @return string **V** of MVC for OL3Map
      */
     public function forTemplate()
     {
@@ -182,6 +194,9 @@ class OL3Map extends DataObject
         return $this->renderWith(__CLASS__);
     }
 
+    /**
+     * @return mixed (boolean | ValidationResult)
+     */
     public function validate()
     {
         $result = parent::validate();

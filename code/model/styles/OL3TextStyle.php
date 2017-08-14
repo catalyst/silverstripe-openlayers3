@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3TextStyle
+ * File contains the OL3TextStyle class.
  *
  * @package openlayers3
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
@@ -15,19 +15,21 @@
 class OL3TextStyle extends OL3Style
 {
     /**
-     * Map of class properties to persist in the database
-     * Keys are property names, values are data types
-     * @var string[] DB types
+     * Map of class properties to persist in the database.
+     * Keys are property names, values are data types.
+     * 
+     * @var array DB types
      */
     private static $db = [
         'TextAlign' => "Enum('left,right,center,end,start','start')",
     ];
 
     /**
-     * Used by the ORM to establish class relations
-     * Map of has_one components
-     * Keys are component names, values are DataObject class names
-     * @var string[] has_one component classes
+     * Used by the ORM to establish class relations.
+     * Map of has_one components.
+     * Keys are component names, values are DataObject class names.
+     * 
+     * @var array  has_one component classes
      */
     private static $has_one = [
         'Fill' => 'OL3FillStyle',
@@ -35,9 +37,10 @@ class OL3TextStyle extends OL3Style
     ];
 
     /**
-     * Map of default values to hydrate instances with on creation
-     * Keys are property names, values are scalar values
-     * @var mixed[]
+     * Map of default values to hydrate instances with on creation.
+     * Keys are property names, values are scalar values.
+     * 
+     * @var array
      */
     private static $defaults = [
         'TextAlign' => 'center',

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain ColorField
+ * File contains the ColorField class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
@@ -21,7 +21,8 @@ class ColorField extends TextField
     private static $regex = '^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d+)\s*\)$';
 
     /**
-     * Make sure the color value matches the format
+     * Make sure the color value matches the format.
+     * 
      * @param Validator $validator
      * @return bool
      */
@@ -48,7 +49,8 @@ class ColorField extends TextField
     }
 
     /**
-     * Overrides FormField::Field() to add RefEx and requirements
+     * Overrides FormField::Field() to add RefEx and requirements.
+     * 
      * @param array $properties
      * @return string
      */

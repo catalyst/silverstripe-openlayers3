@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3ImageStyle
+ * File contains the OL3ImageStyle class.
  *
  * @package openlayers3
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
@@ -15,8 +15,9 @@
 class OL3ImageStyle extends OL3Style
 {
     /**
-     * Getter for FieldList that is used for CRUD forms for this class
-     * Conatins field customisations, mainly choosing the concrete class for this record
+     * Getter for FieldList that is used for CRUD forms for this class.
+     * Conatins field customisations, mainly choosing the concrete class for this record.
+     * 
      * @return FieldList
      */
     public function getCMSFields()

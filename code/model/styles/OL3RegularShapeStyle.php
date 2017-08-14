@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File told conatain OL3RegularShapeStyle
+ * File contains the OL3RegularShapeStyle class.
  *
  * @package openlayers3
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
@@ -15,9 +15,10 @@
 class OL3RegularShapeStyle extends OL3ImageStyle
 {
     /**
-     * Map of class properties to persist in the database
-     * Keys are property names, values are data types
-     * @var string[] DB types
+     * Map of class properties to persist in the database.
+     * Keys are property names, values are data types.
+     * 
+     * @var array
      */
     private static $db = [
         'InnerRadius' => 'Int',
@@ -27,10 +28,11 @@ class OL3RegularShapeStyle extends OL3ImageStyle
     ];
 
     /**
-     * Used by the ORM to establish class relations
-     * Map of has_one components
-     * Keys are component names, values are DataObject class names
-     * @var string[] has_one component classes
+     * Used by the ORM to establish class relations.
+     * Map of has_one components.
+     * Keys are component names, values are DataObject class names.
+     * 
+     * @var array has_one component classes
      */
     private static $has_one = [
         'Fill' => 'OL3FillStyle',
@@ -38,9 +40,10 @@ class OL3RegularShapeStyle extends OL3ImageStyle
     ];
 
     /**
-     * Map of default values to hydrate instances with on creation
-     * Keys are property names, values are scalar values
-     * @var mixed[]
+     * Map of default values to hydrate instances with on creation.
+     * Keys are property names, values are scalar values.
+     * 
+     * @var array
      */
     private static $defaults = [
         'InnerRadius' => 0,
@@ -50,8 +53,10 @@ class OL3RegularShapeStyle extends OL3ImageStyle
     ];
 
     /**
-     * Getter for FieldList that is used for CRUD forms for this class
-     * Conatins field customisations, mainly transforming NumericFields to range sliders and adding field descriptions
+     * Getter for FieldList that is used for CRUD forms for this class.
+     * Conatins field customisations, mainly transforming NumericFields to range
+     * sliders and adding field descriptions.
+     * 
      * @return FieldList
      */
     public function getCMSFields()
