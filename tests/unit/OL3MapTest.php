@@ -1,38 +1,66 @@
 <?php
 
 /**
- * This file contains the "OL3MapTest" class.
+ * This file contains the "OL3MapTestTest" class.
  *
  * @author Catalyst SilverStripe Team <silverstripedev@catalyst.net.nz>
  * @package openlayers3
  */
 
 /**
- * Testing the OL3Map class
+ * Testing the ColorFieldTest class.
  */
 
 class OL3MapTest extends SapphireTest
 {
-    /**
-     * SapphireTest will not call requireDefaultRecords, we need to manually tell
-     * it, on which which classes to call it.
-     *
-     * An array of {@link Page} subclasses that are pre-built vy calls made to
-     * requireDefaultRecords().
-     *
-     * @return array
-     */
-     protected $requireDefaultRecordsFrom = [
-         'OL3Map',
-     ];
 
     /**
-     * @var string
+     * @return void
      */
-    // protected static $fixture_file = 'fixtures/OL3MapTest.yml';
-
-    public function testTest()
+    public function testValidate()
     {
-        $this->assertTrue(false);
+        $map = OL3Map::create();
+        $validator = RequiredFields::create();
+        
+        // No value
+        $map->MinZoom = '';
+        $map->Zoom = '';
+        $result = $map->validate($validator);
+        $this->assertInternalType('boolean', $result);
+        $this->assertTrue($result);
+        
+        $map->MaxZoom = '';
+        $map->Zoom = '';
+        $result = $map->validate($validator);
+        $this->assertInternalType('boolean', $result);
+        $this->assertTrue($result);
+        
+        $map->Zoom = '';
+        $map->MinZoom = '';
+        $map->MaxZoom = '';
+        $result = $map->validate($validator);
+        $this->assertInternalType('boolean', $result);
+        $this->assertTrue($result);
+        
+        // Invalid values
+        $map->setField('MaxZoom', 99);
+        $map->setField('Zoom', 100);
+        $result = $map->validate($validator);
+        $this->assertInstanceOf('ValidationResult', $result);
+        $this->assertFalse($result->valid());
+        
+        $map->setField('MinZoom', 100);
+        $map->setField('Zoom', 99);
+        $result = $map->validate($validator);
+        $this->assertInstanceOf('ValidationResult', $result);
+        $this->assertFalse($result->valid());
+        
+        // Valid views
+        $map->setField('MinZoom', 98);
+        $map->setField('MaxZoom', 100);
+        $map->setField('Zoom', 99);
+        $result = $map->validate($validator);
+        $this->assertInstanceOf('ValidationResult', $result);
+        $this->assertTrue($result->valid());
     }
 }

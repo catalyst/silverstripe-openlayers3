@@ -31,6 +31,8 @@ class ColorFieldTest extends SapphireTest
         $this->assertTrue($field->validate($validator));
         $field->setValue('rgba(1,2,3,4)');
         $this->assertTrue($field->validate($validator));
+        $field->setValue('rgba(255,255,0,.25)');
+        $this->assertTrue($field->validate($validator));
         
         // Invalid regex format
         $field->setValue('rgba( 1 , 2 , 3 , )');
