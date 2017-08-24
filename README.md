@@ -30,7 +30,7 @@ This module is a work in progress and only supports a subset of the many feature
  * Open Street Map layers
  * Tile layers
  * Vector layers
- * WFS sources in XML format for vector layers
+ * WFS sources in XML or GeoJSON format for vector layers
 
 ### Extending the module
 
