@@ -13,7 +13,7 @@ If you have CORS issues with your WFS, you can use the the built-in proxy. For t
 
     OL3Proxy_Controller:
       allowed_host:
-        - wms.domain.com
+        - ahocevar.com
 
 If you want to use Bing services you need to supply an API key in mysite/_config/config.yml like this:
 
@@ -46,7 +46,7 @@ The above code adds a new page type to which you can add a predefined map. In yo
 
 Run dev/build and you are done coding.
 
-### Setup
+### Basic Setup
 
 To get you started you need to setup a map in the CMS for the above example to work. Login to the CMS, go to the OpenLayers3 admin pane and
 
@@ -60,6 +60,37 @@ To get you started you need to setup a map in the CMS for the above example to w
 8. create a new page of type MapPage, pick the map you just created and save and publish
 
 In the frontend you should now see a map, showing the Gulf of Guinea because that is the default center of maps (0° N/0° W). That can be adjusted in the Openlayers pane for the map object.
+
+### GeoJson Vector Layer
+
+Wikipedia [https://en.wikipedia.org/wiki/GeoJSON] provides a basic example for GeoJSON, that you can use in a vector layer. These layers are rendered by Openlayers using styles. You can create a default style easily: Log in to the CMS, go to the Openlayers admin pane, pick the Styles Container tab,
+
+1. create a new style,
+2. give it a name and
+3. save _twice_
+
+Next you go back to the map tab, chose the map you created earlier, go to the layers tab and
+
+1. creating a new layer.
+2. Give it a title
+3. set the type to OL3VectorLayer and
+4. hit save. Go to the source tab
+5. set the type to vector source and format to GeoJSON.
+6. Enter URL to point to http://your-domain/path-to-project/openlayers3/docs/geo.json. Then select the styles tab and
+7. choose the style you created as the default style
+
+You have just created a GeoJSON vector layer. When you now go the map in the frontend navigate the map to Singapore to see the the vectors.
+
+### GML WFS Vector Layer
+
+To create a WFS layer in GML format follow steps 1 - 4 and then
+
+5. set the type to vector source and format to GML.
+6. Enter URL to point to https://ahocevar.com/geoserver/wfs.
+7. Feature types to usa:states and projection to 'EPSG:3857'. Then select the styles tab and
+8. choose the style you created as the default style
+
+When you navigate the front end map to the US, you should see the WFS data rendered as a map layer.
 
 ## Trouble Shooting
 
